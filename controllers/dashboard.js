@@ -3,8 +3,8 @@ var User = require('../models/user');
 // GET: /
 exports.index = function (req, res) {
 
-	res.render('home/index', {
-		title: 'DiaryApp Home Page'
+	res.render('users/dashboard', {
+		title: 'Dashboard Yo'
 	});
 
 };
