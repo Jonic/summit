@@ -1,0 +1,11 @@
+
+$widthHelperCounterIncrement: 5;
+$widthHelperCounter: $widthHelperCounterIncrement;
+
+@while $widthHelperCounter <= 100 {
+	.width-#{$widthHelperCounter} {
+		width: #{$widthHelperCounter + '%'};
+	}
+
+	$widthHelperCounter: $widthHelperCounter + $widthHelperCounterIncrement;
+}

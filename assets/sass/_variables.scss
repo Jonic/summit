@@ -1,0 +1,30 @@
+//	Media Query Breakpoints
+$break-narrow:  320px;
+$break-medium:  560px;
+$break-regular: 780px;
+$break-wide:    1100px;
+
+//	Font Colors
+$font-color:              #444;
+$font-color-headings:     #0B0D15;
+$font-color-links:        #00afe0;
+$font-color-links-active: darken($font-color-links, 5);
+
+//	Font Weights
+$font-weight:      400;
+$font-weight-bold: 700;
+
+//	Font Families
+$font-family:          "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+$font-family-headings: $font-family;
+
+//	Font Sizes
+$font-size:          16;
+$font-size-larger:   18;
+$font-size-smaller:  14;
+$heading-size-alpha: 32;
+$heading-size-beta:  26;
+$heading-size-gamma: 22;
+
+//	Line Heights
+$line-height: 24;

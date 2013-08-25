@@ -1,0 +1,11 @@
+{
+	"name":  "JobExchange",
+	"version": "0.0.1",
+	"dependencies": {
+		"jquery": "2.0.3",
+		"html5shiv": "3.6.2",
+		"bourbon": "3.1.8",
+		"bootstrap": "3.0.0"
+	},
+	"private": true
+}

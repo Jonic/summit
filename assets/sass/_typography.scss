@@ -1,0 +1,56 @@
+
+//  Setup Box Sizing
+
+*, *:before, *:after {
+	@include box-sizing(border-box);
+}
+
+//  Sort the body's defaults out
+
+body {
+	color: $font-color;
+	font-family: $font-family;
+	min-width: 320px;
+	overflow-x: hidden;
+	position: relative;
+	@extend %text-rendering;
+	@extend %text-size-adjust;
+}
+
+//  Base element styles
+
+a {
+	color: $font-color-links;
+	font-weight: bold;
+	text-decoration: none;
+	@include transition(all 300ms ease-in-out);
+
+	&:active,
+	&:focus,
+	&:hover {
+		color: $font-color-links-active;
+		opacity: 1;
+		text-decoration: none;
+	}
+
+	&:visited {
+		opacity: 0.75;
+	}
+}
+
+/*
+b {
+	font-weight: $font-weight-bold;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+	color: $font-color-headings;
+	font-family: $font-family-headings;
+	font-weight: $font-weight;
+}
+*/
