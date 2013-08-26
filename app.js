@@ -39,8 +39,6 @@ app.configure(function () {
 		})
 	}));
 
-	//require('./lib/authentication.js')(app);
-
 	app.use(app.router);
 
 	hbs.registerPartials(__dirname + '/views/_partials');
