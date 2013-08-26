@@ -7,15 +7,19 @@
 				<a class="navbar-brand animated wobble" href="/">DiaryApp</a>
 
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="/signup">Sign Up</a></li>
-					<li><a href="/signin">Sign In</a></li>
-					<li><a href="/signout">Sign Out</a></li>
+					{{#if username}}
+						<li>Welcome back, {{username}}</li>
+						<li><a href="/signout">Sign Out</a></li>
+					{{else}}
+						<li><a href="/signup">Sign Up</a></li>
+						<li><a href="/signin">Sign In</a></li>
+					{{/if}}
 				</ul>
 			</div>
 		</div>
 
 		<div class="container">
-			<h1>{{ title }}</h1>
+			<h1>{{title}}</h1>
 
 {{{body}}}
 		</div>

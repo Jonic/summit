@@ -1,5 +1,7 @@
 var User = require('../models/user');
-var hash = require('../lib/helpers/password').hash;
+
+var authenticationHelper = require('../lib/helpers/authentication');
+var passwordHelper = require('../lib/helpers/password');
 
 // GET: /signup
 exports.signup = function (req, res) {
@@ -17,11 +19,31 @@ exports.signup = function (req, res) {
 // POST: /signup
 exports.createUser = function (req, res, next) {
 
+	var name = req.body.name;
 	var email = req.body.email;
+	var username = req.body.username;
 	var password = req.body.password;
+
+	if (!name) {
+		console.log('Error: name missing');
+
+		return res.render('users/signup', {
+			title: 'sign up for DiaryApp'
+		});
+	}
 
 	if (!email) {
 		console.log('Error: email missing');
+
+		return res.render('users/signup', {
+			title: 'sign up for DiaryApp'
+		});
+	} else {
+		email = email.toLowerCase();
+	}
+
+	if (!username) {
+		console.log('Error: username missing');
 
 		return res.render('users/signup', {
 			title: 'sign up for DiaryApp'
@@ -37,9 +59,18 @@ exports.createUser = function (req, res, next) {
 	}
 
 	User.findOne({
-		email: {
-			$regex: new RegExp("^" + email.toLowerCase(), "i")
-		}
+		$or: [
+			{
+				email: {
+					$regex: new RegExp("^" + email, "i")
+				}
+			},
+			{
+				username: {
+					$regex: new RegExp("^" + username, "i")
+				}
+			}
+		]
 	}, function (error, user) {
 		if (error) {
 			console.log('Error getting users');
@@ -58,10 +89,15 @@ exports.createUser = function (req, res, next) {
 		console.log('User does not exist yet - add them to the database');
 
 		var user = new User({
-			email: email
+			diary: {
+				name: 'My Diary'
+			},
+			email: email,
+			name: name,
+			username: username
 		});
 
-		hash(password, function (err, salt, hash) {
+		passwordHelper.hash(password, function (err, salt, hash) {
 			if (err) {
 				throw err;
 			}
@@ -81,6 +117,7 @@ exports.createUser = function (req, res, next) {
 				console.log('user saved!', user);
 
 				req.session.user = true;
+				req.session.firstName = user.firstName;
 
 				res.redirect('/dashboard');
 			});
@@ -92,10 +129,6 @@ exports.createUser = function (req, res, next) {
 // GET: /signin
 exports.signin = function (req, res) {
 
-	if (req.session.user === true) {
-		return res.redirect('/dashboard');
-	}
-
 	res.render('users/signin', {
 		title: 'sign in to your account'
 	});
@@ -105,11 +138,11 @@ exports.signin = function (req, res) {
 // POST: /signin
 exports.authenticateUser = function (req, res, next) {
 
-	var email = req.body.email;
+	var identifier = req.body.identifier;
 	var password = req.body.password;
 
-	if (!email) {
-		console.log('Error: email missing');
+	if (!identifier) {
+		console.log('Error: identifier missing');
 
 		return res.render('users/signin', {
 			title: 'Failed to authenticate user'
@@ -125,14 +158,23 @@ exports.authenticateUser = function (req, res, next) {
 	}
 
 	User.findOne({
-		email: {
-			$regex: new RegExp("^" + email.toLowerCase(), "i")
-		}
+		$or: [
+			{
+				email: {
+					$regex: new RegExp("^" + identifier, "i")
+				}
+			},
+			{
+				username: {
+					$regex: new RegExp("^" + identifier, "i")
+				}
+			}
+		]
 	}, function (error, user) {
 		if (error) {
-			console.log('Error getting users');
-
-			return next(error);
+			return res.render('users/signin', {
+				title: 'Error getting users'
+			});
 		}
 
 		if (!user) {
@@ -145,7 +187,7 @@ exports.authenticateUser = function (req, res, next) {
 
 		console.log('user exists - checking password');
 
-		hash(password, user.password.salt, function (err, hash) {
+		passwordHelper.hash(password, user.password.salt, function (err, hash) {
 			if (err) {
 				return fn(err);
 			}
@@ -153,9 +195,13 @@ exports.authenticateUser = function (req, res, next) {
 			if (hash === user.password.hash) {
 				console.log('successfully authenticated user');
 
-				req.session.user = true;
-
-				return res.redirect('/dashboard');
+				return authenticationHelper.setAuthenticatedUser({
+					loggedin: true,
+					firstName: user.firstName,
+					username: user.username
+				}, req, res, function (req, res) {
+					res.redirect('/dashboard');
+				});
 			}
 
 			console.log('password hash match failed');
@@ -169,10 +215,10 @@ exports.authenticateUser = function (req, res, next) {
 // GET: /signout
 exports.signout = function (req, res) {
 
-	delete req.session.user;
-
-	res.render('users/signout', {
-		title: 'you have now signed out'
+	authenticationHelper.clearAuthenticatedUser(req, res, function () {
+		res.render('users/signout', {
+			title: 'you have now signed out'
+		});
 	});
 
 };

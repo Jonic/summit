@@ -1,23 +1,47 @@
+var diarySchema = require('./diary');
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var user = new Schema({
-	dateJoined: Date,
+var userSchema = new Schema({
+	dateJoined: {
+		default: Date.now,
+		type: Date
+	},
+	diary: [diarySchema],
 	email: {
 		index: {
 			unique: true
 		},
 		required: true,
-		type: String,
+		type: String
 	},
-	lastLoggedIn: Date,
+	lastLoggedIn: {
+		default: Date.now,
+		type: Date
+	},
 	name: String,
 	password: {
-		hash: String,
-		salt: String
+		hash: {
+			required: true,
+			type: String
+		},
+		salt: {
+			required: true,
+			type: String
+		}
 	},
-	username: String,
-	verified: Boolean
+	username: {
+		index: {
+			unique: true
+		},
+		required: true,
+		type: String
+	}
 });
 
-module.exports = mongoose.model('user', user);
+userSchema.virtual('firstName').get(function () {
+	return this.name.split(' ')[0];
+});
+
+module.exports = mongoose.model('User', userSchema);

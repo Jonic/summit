@@ -1,11 +1,11 @@
 var User = require('../models/user');
 
-// GET: /
-exports.index = function (req, res) {
+// GET: /diary/:user
+exports.getDiaryForUser = function (req, res) {
 
-	var user = req.param.user;
+	var username = req.query.username;
 
-	if (!user) {
+	if (!username) {
 		res.redirect('/');
 	} else {
 		res.render('diary/index', {

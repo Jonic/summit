@@ -13,7 +13,7 @@
   "name": "Summit",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=development nodemon app.js -e hbs,html",
+    "start": "NODE_ENV=development nodemon app.js -e hbs,html,js,json",
     "postinstall": "./node_modules/bower/bin/bower install"
   },
   "version": "0.0.1"
