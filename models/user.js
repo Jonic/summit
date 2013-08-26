@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var user = new Schema({
 	dateJoined: Date,
-	emailAddress: {
+	email: {
 		index: {
 			unique: true
 		},
@@ -20,4 +20,4 @@ var user = new Schema({
 	verified: Boolean
 });
 
-module.exports = user;
+module.exports = mongoose.model('user', user);
