@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js -e hbs,html"
+    "start": "NODE_ENV=development nodemon app.js -e hbs,html"
   },
   "engines": {
     "node": "0.10.15",
