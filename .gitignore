@@ -19,4 +19,3 @@ node_modules
 # Other ignored files and directories
 
 .sass-cache
-assets/vendor

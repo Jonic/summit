@@ -13,9 +13,8 @@
   "name": "Summit",
   "private": true,
   "scripts": {
-    "postdeploy": "node ./lib/bower.js",
     "start": "node app.js"
   },
-  "version": "0.0.1-3",
+  "version": "0.0.1-4",
   "subdomain": "summit"
 }
