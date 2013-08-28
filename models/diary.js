@@ -1,9 +1,8 @@
+var mongoose = require('mongoose');
+
 var entrySchema = require('./entry');
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-
-var diarySchema = new Schema({
+var diarySchema = new mongoose.Schema({
 	name: {
 		required: true,
 		type: String

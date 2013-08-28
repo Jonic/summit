@@ -1,19 +1,13 @@
-/**
- * Module dependencies.
- */
-
 var express = require('express');
 var hbs = require('hbs');
 var http = require('http');
 var mongoose = require('mongoose');
 var MongoStore = require('connect-mongo')(express);
 var path = require('path');
-
 var app = express();
 
 require('./lib/db.js')();
 
-// all environments
 app.configure(function () {
 	app.set('port', process.env.PORT || 3000);
 	app.set('views', __dirname + '/views');
@@ -26,9 +20,9 @@ app.configure(function () {
 
 	app.use(express.bodyParser());
 	app.use(express.methodOverride());
-	app.use(express.cookieParser('you should know me better than that'));
+	app.use(express.cookieParser('whatever'));
 	app.use(express.session({
-		secret: 'keyboard cat',
+		secret: 'whatever',
 		cookie: {
 			maxAge: 3600000
 		},
@@ -44,7 +38,6 @@ app.configure(function () {
 	hbs.registerPartials(__dirname + '/views/_partials');
 });
 
-// development only
 app.configure('development', function () {
 	app.use(express.errorHandler());
 });

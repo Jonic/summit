@@ -1,9 +1,7 @@
+var mongoose = require('mongoose');
 var diarySchema = require('./diary');
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-
-var userSchema = new Schema({
+var userSchema = new mongoose.Schema({
 	dateJoined: {
 		default: Date.now,
 		type: Date
