@@ -4,7 +4,7 @@ var User = require('../models/user');
 exports.index = function (req, res) {
 
 	res.render('users/dashboard', {
-		title: 'Dashboard Yo',
+		title: 'Dashboard',
 		username: req.session.auth.firstName
 	});
 
