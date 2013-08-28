@@ -7,8 +7,8 @@
 				<a class="navbar-brand animated wobble" href="/">Summit</a>
 
 				<ul class="nav navbar-nav navbar-right">
-					{{#if username}}
-						<li><a href="/dashboard">Welcome back, {{username}}</a></li>
+					{{#if auth.loggedin}}
+						<li><a href="/dashboard">Welcome back, {{auth.username}}</a></li>
 						<li><a href="/signout">Sign Out</a></li>
 					{{else}}
 						<li><a href="/signup">Sign Up</a></li>

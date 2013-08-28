@@ -3,9 +3,9 @@ var User = require('../models/user');
 // GET: /dashboard
 exports.index = function (req, res) {
 
-	res.render('users/dashboard', {
+	res.render('dashboard/index', {
 		title: 'Dashboard',
-		username: req.session.auth.firstName
+		auth: req.session.auth
 	});
 
 };

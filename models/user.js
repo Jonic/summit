@@ -1,12 +1,16 @@
 var mongoose = require('mongoose');
-var diarySchema = require('./diary');
+var Schema = mongoose.Schema;
+var Diary = require('./diary');
 
-var userSchema = new mongoose.Schema({
+var userSchema = new Schema({
 	dateJoined: {
 		default: Date.now,
 		type: Date
 	},
-	diary: [diarySchema],
+	diary: {
+		type: Schema.ObjectId,
+		ref: 'Diary'
+	},
 	email: {
 		index: {
 			unique: true

@@ -2,7 +2,8 @@ var User = require('../models/user');
 
 exports.getUser = function (req, res, next) {
 
-	var identifier = req.body.identifier;
+	var identifier = req.session.auth ? req.session.auth.username : req.body.identifier;
+
 	var email = req.body.email;
 	var username = req.body.username;
 

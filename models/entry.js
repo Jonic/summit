@@ -1,7 +1,11 @@
 var mongoose = require('mongoose');
 
 var entrySchema = new mongoose.Schema({
-	name: String
+	date: {
+		type: Date,
+		default: Date.now
+	},
+	content: String
 });
 
 module.exports = mongoose.model('Entry', entrySchema);
