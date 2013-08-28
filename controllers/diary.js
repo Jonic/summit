@@ -23,8 +23,8 @@ exports.entry = function (req, res) {
 	if (!username) {
 		res.redirect('/');
 	} else {
-		res.render('diary/index', {
-			title: 'Diary Index'
+		res.render('diary/entry', {
+			title: 'Diary Entry'
 		});
 	}
 

@@ -4,7 +4,7 @@ var User = require('../models/user');
 exports.index = function (req, res) {
 
 	res.render('home/index', {
-		title: 'DiaryApp Home Page'
+		title: 'Welcome'
 	});
 
 };
