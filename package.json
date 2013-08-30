@@ -17,7 +17,7 @@
   "name": "Summit",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "NODE_ENV=development nodemon app.js -e hbs"
   },
   "version": "0.0.1-5",
   "subdomain": "summit"
