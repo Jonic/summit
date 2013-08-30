@@ -5,7 +5,10 @@ var entrySchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	},
-	content: String
+	content: {
+		required: true,
+		type: String
+	}
 });
 
-module.exports = mongoose.model('Entry', entrySchema);
+module.exports = entrySchema;

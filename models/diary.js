@@ -4,13 +4,10 @@ var Entry = require('./entry');
 
 var diarySchema = new Schema({
 	name: {
-		required: true,
+		default: 'My Diary',
 		type: String
 	},
-	entries: {
-		type: Schema.ObjectId,
-		ref: 'Entry'
-	}
+	entries: [Entry]
 });
 
-module.exports = mongoose.model('Diary', diarySchema);
+module.exports = diarySchema;

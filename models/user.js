@@ -7,10 +7,7 @@ var userSchema = new Schema({
 		default: Date.now,
 		type: Date
 	},
-	diary: {
-		type: Schema.ObjectId,
-		ref: 'Diary'
-	},
+	diary: [Diary],
 	email: {
 		index: {
 			unique: true
