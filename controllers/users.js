@@ -1,5 +1,4 @@
 var User = require('../models/user');
-var Diary = require('../models/diary');
 
 var helpers = require('../helpers');
 
@@ -26,40 +25,34 @@ exports.createUser = function (req, res, next) {
 	var username = req.body.username;
 	var password = req.body.password;
 
-	var diary = new Diary({
-		title: 'My Diary'
+	var user = new User({
+		diary: [{
+			entries: []
+		}],
+		email: email,
+		name: name,
+		username: username
 	});
 
-	diary.save(function (err, diary) {
-		console.log(diary);
+	helpers.password.hash(password, function (err, salt, hash) {
+		if (err) {
+			throw err;
+		}
 
-		var user = new User({
-			diary: diary,
-			email: email,
-			name: name,
-			username: username
-		});
+		user.password.salt = salt;
+		user.password.hash = hash;
 
-		helpers.password.hash(password, function (err, salt, hash) {
+		user.save(function (err, user) {
 			if (err) {
-				throw err;
+				return next(err);
 			}
 
-			user.password.salt = salt;
-			user.password.hash = hash;
-
-			user.save(function (err, user) {
-				if (err) {
-					return next(err);
-				}
-
-				return helpers.authentication.setAuthenticatedUser({
-					loggedin: true,
-					firstName: user.firstName,
-					username: user.username
-				}, req, res, function (req, res) {
-					res.redirect('/dashboard');
-				});
+			return helpers.authentication.setAuthenticatedUser({
+				loggedin: true,
+				firstName: user.firstName,
+				username: user.username
+			}, req, res, function (req, res) {
+				res.redirect('/dashboard');
 			});
 		});
 	});

@@ -1,2 +1,41 @@
 
-<p>list of all entries</p>
+{{#if saved}}
+	<div class="alert alert-success">
+		<p>SAVED YOUR BLOODY ENTRY</p>
+	</div>
+{{/if}}
+
+{{#if diary.entries}}
+
+	<ul>
+		{{#each diary.entries}}
+			<li>{{content}}</li>
+		{{/each}}
+	</ul>
+
+{{else}}
+
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">No Entries</h3>
+		</div>
+
+		<div class="panel-body">
+			{{#if auth.loggedin}}
+				<form action="/diary/new-entry" method="post">
+					<fieldset>
+						<div class="form-group">
+							<label for="content">What Happened Today?</label>
+							<textarea class="form-control" id="content" name="content"></textarea>
+						</div>
+
+						<button class="btn btn-primary" type="submit">Summit Up</button>
+					</fieldset>
+				</form>
+			{{else}}
+				<p>{{diary.author.firstName}}'s diary doesn't have any entries yet!</p>
+			{{/if}}
+		</div>
+	</div>
+
+{{/if}}
