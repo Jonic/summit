@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+
 var Entry = require('./entry');
 
 var diarySchema = new Schema({
