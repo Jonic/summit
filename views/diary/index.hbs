@@ -6,15 +6,15 @@
 {{/if}}
 
 {{#if diary.entries}}
-
 	<ul>
 		{{#each diary.entries}}
-			<li>{{content}}</li>
+			<li>
+				<h2>{{content}}</h2>
+				<time><a href="/diary/{{../diary.author.username}}/entry/{{_id}}">{{niceDate}}</a></time>
+			</li>
 		{{/each}}
 	</ul>
-
 {{else}}
-
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<h3 class="panel-title">No Entries</h3>
@@ -22,20 +22,10 @@
 
 		<div class="panel-body">
 			{{#if auth.loggedin}}
-				<form action="/diary/new-entry" method="post">
-					<fieldset>
-						<div class="form-group">
-							<label for="content">What Happened Today?</label>
-							<textarea class="form-control" id="content" name="content"></textarea>
-						</div>
-
-						<button class="btn btn-primary" type="submit">Summit Up</button>
-					</fieldset>
-				</form>
+				{{> _newEntryForm}}
 			{{else}}
 				<p>{{diary.author.firstName}}'s diary doesn't have any entries yet!</p>
 			{{/if}}
 		</div>
 	</div>
-
 {{/if}}
