@@ -1,12 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+
 var Diary = require('./diary');
 
 var userSchema = new Schema({
-	dateJoined: {
-		default: Date.now,
-		type: Date
-	},
 	diary: [Diary],
 	email: {
 		index: {
@@ -14,10 +11,6 @@ var userSchema = new Schema({
 		},
 		required: true,
 		type: String
-	},
-	lastLoggedIn: {
-		default: Date.now,
-		type: Date
 	},
 	name: String,
 	password: {

@@ -36,21 +36,43 @@ exports.index = function (req, res) {
 
 };
 
-// GET: /diary/:user/entry/:entryid
+// GET: /diary/:user/entry/:entryId
 exports.entry = function (req, res) {
 
-	var username = req.query.username;
+	var diaryUsername = req.params.username;
+	var entryId = req.params.entryId;
 
-	if (!username) {
+	if (!diaryUsername || !entryId) {
 		res.redirect('/');
 	} else {
-		res.render('diary/entry', {
-			auth: req.session.auth,
-			saved: req.session.saved,
-			title: 'Diary Entry'
-		});
+		var diaryUser = User.findOne({
+			username: diaryUsername
+		}, function (err, diaryUser) {
+			if (err) {
+				return;
+			}
 
-		req.session.saved = false;
+			if (!diaryUser) {
+				return res.render('diary/notfound');
+			}
+
+			var entry = diaryUser.diary[0].entries.filter(function (entry) {
+				return entry._id.toString() === entryId;
+			})[0];
+
+			res.render('diary/entry', {
+				auth: req.session.auth,
+				diary: {
+					author: {
+						firstName: diaryUser.firstName,
+						username: diaryUser.username
+					},
+					diaryTitle: diaryUser.diary[0].name
+				},
+				entry: entry,
+				title: 'Diary Entry'
+			});
+		});
 	}
 
 };
