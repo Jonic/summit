@@ -1,4 +1,9 @@
 {
+  "author": {
+    "email": "jonic@100yen.co.uk",
+    "name": "Jonic Linley",
+    "url": "http://100yen.co.uk/"
+  },
   "dependencies": {
     "bower": "~1.2.4",
     "connect-mongo": "~0.3.3",
@@ -17,7 +22,7 @@
   "name": "Summit",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "NODE_ENV=development nodemon app.js -e hbs"
   },
   "version": "0.0.1-9",
   "subdomain": "summit"
