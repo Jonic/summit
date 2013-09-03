@@ -1,43 +1,7 @@
 var User = require('../models/user');
 
-// GET: /diary/:user
-exports.index = function (req, res) {
-
-	var diaryUsername = req.params.username;
-
-	if (!diaryUsername) {
-		return res.redirect('/');
-	}
-
-	var diaryUser = User.findOne({
-		username: diaryUsername
-	}, function (err, diaryUser) {
-		if (err) {
-			return;
-		}
-
-		if (!diaryUser) {
-			return res.render('diary/notfound');
-		}
-
-		res.render('diary/index', {
-			auth: req.session.auth,
-			diary: {
-				entries: diaryUser.diary[0].entries,
-				author: {
-					firstName: diaryUser.firstName,
-					username: diaryUser.username
-				},
-				diaryTitle: diaryUser.diary[0].name
-			},
-			title: 'Diary Index'
-		});
-	});
-
-};
-
-// GET: /diary/:user/entry/:entryId
-exports.entry = function (req, res) {
+// GET: /diary/:username/entry/:entryid
+exports.show = function (req, res) {
 
 	var diaryUsername = req.params.username;
 	var entryId = req.params.entryId;
@@ -78,7 +42,7 @@ exports.entry = function (req, res) {
 };
 
 // GET: /diary/new-entry
-exports.newEntryForm = function (req, res) {
+exports.new = function (req, res) {
 
 	res.render('diary/newEntry', {
 		auth: req.session.auth,
@@ -88,7 +52,7 @@ exports.newEntryForm = function (req, res) {
 };
 
 // POST: /diary/new-entry
-exports.createNewEntry = function (req, res) {
+exports.create = function (req, res) {
 
 	var content = req.body.content;
 	var user = req.user;
