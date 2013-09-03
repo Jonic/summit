@@ -13,3 +13,13 @@ exports.index = function (req, res) {
 	});
 
 };
+
+// GET: /dashboard
+exports.dashboard = function (req, res) {
+
+	res.render('dashboard/index', {
+		title: 'Dashboard',
+		auth: req.session.auth
+	});
+
+};
