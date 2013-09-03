@@ -25,6 +25,6 @@
   "scripts": {
     "start": "node app.js"
   },
-  "version": "0.0.1-11",
+  "version": "0.0.1-19",
   "subdomain": "summit"
 }
