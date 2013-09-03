@@ -1,6 +1,6 @@
 var User = require('../models/user');
 
-// GET: /diary/:user
+// GET: /diary/:username
 exports.show = function (req, res) {
 
 	var diaryUsername = req.params.username;
@@ -17,7 +17,7 @@ exports.show = function (req, res) {
 		}
 
 		if (!diaryUser) {
-			return res.render('diary/notfound');
+			return res.render('diary/not-found');
 		}
 
 		res.render('diary/index', {

@@ -1,11 +1,2 @@
 
-	<form action="/diary/new-entry" method="post">
-		<fieldset>
-			<div class="form-group">
-				<label for="content">What Happened Today?</label>
-				<textarea class="form-control" id="content" name="content"></textarea>
-			</div>
-
-			<button class="btn btn-primary" type="submit">Summit Up</button>
-		</fieldset>
-	</form>
+	{{> _newEntryForm}}

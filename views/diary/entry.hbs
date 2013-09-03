@@ -1,2 +1,7 @@
 
 <p>Individual diary entry</p>
+
+{{#if entry}}
+	<h2>{{entry.content}}</h2>
+	<time><a href="/diary/{{diary.author.username}}/entry/{{entry._id}}">{{entry.niceDate}}</a></time>
+{{/if}}

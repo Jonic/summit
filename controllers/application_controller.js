@@ -23,3 +23,13 @@ exports.dashboard = function (req, res) {
 	});
 
 };
+
+// GET: /diary/not-found
+exports.diaryNotFound = function (req, res) {
+
+	res.render('diary/not-found', {
+		title: 'Dashboard',
+		auth: req.session.auth
+	});
+
+};
