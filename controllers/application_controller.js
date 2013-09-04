@@ -4,7 +4,6 @@ var User = require('../models/user');
 exports.home = function (req, res) {
 
 	res.render('application/home', {
-		auth: req.session.auth,
 		title: 'Welcome'
 	});
 
@@ -14,8 +13,7 @@ exports.home = function (req, res) {
 exports.dashboard = function (req, res) {
 
 	res.render('application/dashboard', {
-		title: 'Dashboard',
-		auth: req.session.auth
+		title: 'Dashboard'
 	});
 
 };
@@ -24,8 +22,7 @@ exports.dashboard = function (req, res) {
 exports.diaryNotFound = function (req, res) {
 
 	res.render('application/diaryNotFound', {
-		title: 'Dashboard',
-		auth: req.session.auth
+		title: 'Dashboard'
 	});
 
 };

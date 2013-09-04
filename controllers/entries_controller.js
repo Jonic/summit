@@ -25,7 +25,6 @@ exports.show = function (req, res) {
 			})[0];
 
 			res.render('entries/show', {
-				auth: req.session.auth,
 				diary: {
 					author: {
 						firstName: diaryUser.firstName,
@@ -45,7 +44,6 @@ exports.show = function (req, res) {
 exports.new = function (req, res) {
 
 	res.render('entries/new', {
-		auth: req.session.auth,
 		title: 'New Entry'
 	});
 

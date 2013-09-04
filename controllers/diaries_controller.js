@@ -21,7 +21,6 @@ exports.show = function (req, res) {
 		}
 
 		res.render('diaries/show', {
-			auth: req.session.auth,
 			diary: {
 				entries: diaryUser.diary[0].entries,
 				author: {
