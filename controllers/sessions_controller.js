@@ -1,6 +1,6 @@
 var User = require('../models/user');
 
-var helpers = require('../helpers');
+var helpers = require('../helpers/_index');
 
 // GET: /signin
 exports.new = function (req, res) {

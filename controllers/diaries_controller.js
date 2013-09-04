@@ -16,7 +16,7 @@ exports.show = function (req, res) {
 			return;
 		}
 
-		if (!diaryUsername) {
+		if (!diaryUser) {
 			return res.redirect('diary/not-found');
 		}
 
