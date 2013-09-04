@@ -6,7 +6,7 @@ exports.show = function (req, res) {
 	var diaryUsername = req.params.username;
 
 	if (!diaryUsername) {
-		return res.redirect('/');
+		return res.redirect('diary/not-found');
 	}
 
 	var diaryUser = User.findOne({
@@ -16,11 +16,11 @@ exports.show = function (req, res) {
 			return;
 		}
 
-		if (!diaryUser) {
-			return res.render('diary/not-found');
+		if (!diaryUsername) {
+			return res.redirect('diary/not-found');
 		}
 
-		res.render('diary/index', {
+		res.render('diaries/show', {
 			auth: req.session.auth,
 			diary: {
 				entries: diaryUser.diary[0].entries,
@@ -30,8 +30,11 @@ exports.show = function (req, res) {
 				},
 				diaryTitle: diaryUser.diary[0].name
 			},
+			saved: req.session.saved,
 			title: 'Diary Index'
 		});
+
+		req.session.saved = false;
 	});
 
 };

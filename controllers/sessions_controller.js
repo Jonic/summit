@@ -5,7 +5,7 @@ var helpers = require('../helpers');
 // GET: /signin
 exports.new = function (req, res) {
 
-	res.render('users/signin', {
+	res.render('sessions/new', {
 		title: 'sign in to your account'
 	});
 
@@ -17,7 +17,7 @@ exports.create = function (req, res, next) {
 	var user = req.user;
 
 	if (!user) {
-		return res.render('users/signin', {
+		return res.render('sessions/new', {
 			title: 'USER DOES NOT EXIST'
 		});
 	}
@@ -48,7 +48,7 @@ exports.create = function (req, res, next) {
 exports.destroy = function (req, res) {
 
 	helpers.authentication.clearAuthenticatedUser(req, res, function () {
-		res.render('users/signout', {
+		res.render('sessions/destroy', {
 			title: 'you have now signed out'
 		});
 	});

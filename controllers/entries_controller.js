@@ -17,14 +17,14 @@ exports.show = function (req, res) {
 			}
 
 			if (!diaryUser) {
-				return res.render('diary/notfound');
+				return res.redirect('diary/not-found');
 			}
 
 			var entry = diaryUser.diary[0].entries.filter(function (entry) {
 				return entry._id.toString() === entryId;
 			})[0];
 
-			res.render('diary/entry', {
+			res.render('entries/show', {
 				auth: req.session.auth,
 				diary: {
 					author: {
@@ -44,7 +44,7 @@ exports.show = function (req, res) {
 // GET: /diary/new-entry
 exports.new = function (req, res) {
 
-	res.render('diary/newEntry', {
+	res.render('entries/new', {
 		auth: req.session.auth,
 		title: 'New Entry'
 	});
@@ -65,8 +65,6 @@ exports.create = function (req, res) {
 
 	user.save(function (err, user) {
 		var args = Array.prototype.slice.call(arguments);
-
-		console.log(args);
 
 		if (err) {
 			throw err;

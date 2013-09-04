@@ -1,42 +1,39 @@
 var express = require('express');
+
+var app = express();
 var hbs = require('hbs');
 var http = require('http');
 var mongoose = require('mongoose');
-var MongoStore = require('connect-mongo')(express);
+var mongostore = require('connect-mongo')(express);
 var path = require('path');
-var app = express();
 
 require('./lib/db.js')();
 
-app.configure(function () {
-	app.set('port', process.env.PORT || 3000);
-	app.set('views', __dirname + '/views');
-	app.set('view engine', 'hbs');
+var mongostoreSettings = {
+	cookie: {
+		maxAge: (60 * 60 * 24 * 28)
+	},
+	secret: 'i should live in salt for leaving you behind',
+	store: new mongostore({
+		db:mongoose.connection.db
+	}, function (err) {
+		console.log(err || 'connect-mongodb setup ok');
+	})
+};
 
-	app.use(express.favicon());
-	app.use(express.static(path.join(__dirname, 'assets')));
+app.set('port', process.env.PORT || 3000);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'hbs');
 
-	app.use(express.logger('dev'));
+app.use(express.bodyParser());
+app.use(express.cookieParser('you should know me better than that'));
+app.use(express.favicon());
+app.use(express.logger('dev'));
+app.use(express.methodOverride());
+app.use(express.session(mongostoreSettings));
+app.use(express.static(path.join(__dirname, 'assets')));
 
-	app.use(express.bodyParser());
-	app.use(express.methodOverride());
-	app.use(express.cookieParser('whatever'));
-	app.use(express.session({
-		secret: 'whatever',
-		cookie: {
-			maxAge: 3600000
-		},
-		store: new MongoStore({
-			db:mongoose.connection.db
-		}, function (err) {
-			console.log(err || 'connect-mongodb setup ok');
-		})
-	}));
-
-	app.use(app.router);
-
-	hbs.registerPartials(__dirname + '/views/_partials');
-});
+app.use(app.router);
 
 app.configure('development', function () {
 	app.use(express.errorHandler());
