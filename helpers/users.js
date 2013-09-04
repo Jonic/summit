@@ -1,8 +1,6 @@
-var User = require('../models/user');
-
 exports.getUser = function (req, res, next) {
 
-	var identifier = req.session.auth ? req.session.auth.username : req.body.identifier;
+	var identifier = req.session.auth !== undefined ? req.session.auth.username : req.body.identifier;
 
 	var email = req.body.email;
 	var username = req.body.username;
@@ -11,7 +9,7 @@ exports.getUser = function (req, res, next) {
 		email = username = identifier;
 	}
 
-	User.findOne({
+	require('../models/user').findOne({
 		$or: [
 			{
 				email: {

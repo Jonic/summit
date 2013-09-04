@@ -2,13 +2,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var entrySchema = new Schema({
-	date: {
-		default: Date.now,
-		type: Date
-	},
 	content: {
 		required: true,
 		type: String
+	},
+	date: {
+		default: Date.now,
+		type: Date
 	}
 });
 
