@@ -15,7 +15,7 @@ exports.show = function (req, res) {
 // GET /signup
 exports.new = function (req, res) {
 
-	res.render('users/signup', {
+	res.render('users/new', {
 		title: 'sign up for DiaryApp'
 	});
 
@@ -30,7 +30,7 @@ exports.edit = function (req, res) {
 exports.create = function (req, res) {
 
 	if (req.user) {
-		return res.render('users/signup', {
+		return res.render('users/new', {
 			title: 'Email or username in use!'
 		});
 	}
@@ -54,8 +54,10 @@ exports.create = function (req, res) {
 			throw err;
 		}
 
-		user.password.salt = salt;
-		user.password.hash = hash;
+		user.password = {
+			salt: salt,
+			hash: hash
+		};
 
 		user.save(function (err, user) {
 			if (err) {

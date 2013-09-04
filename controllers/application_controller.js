@@ -1,13 +1,9 @@
 var User = require('../models/user');
 
 // GET: /
-exports.index = function (req, res) {
+exports.home = function (req, res) {
 
-	if (req.session.auth) {
-		return res.redirect('/dashboard');
-	}
-
-	res.render('home/index', {
+	res.render('application/home', {
 		auth: req.session.auth,
 		title: 'Welcome'
 	});
@@ -17,7 +13,7 @@ exports.index = function (req, res) {
 // GET: /dashboard
 exports.dashboard = function (req, res) {
 
-	res.render('dashboard/index', {
+	res.render('application/dashboard', {
 		title: 'Dashboard',
 		auth: req.session.auth
 	});
@@ -27,7 +23,7 @@ exports.dashboard = function (req, res) {
 // GET: /diary/not-found
 exports.diaryNotFound = function (req, res) {
 
-	res.render('diary/not-found', {
+	res.render('application/diaryNotFound', {
 		title: 'Dashboard',
 		auth: req.session.auth
 	});
