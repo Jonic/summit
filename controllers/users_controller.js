@@ -1,6 +1,6 @@
 var User = require('../models/user');
 
-var helpers = require('../helpers');
+var helpers = require('../helpers/_index');
 
 // GET /users
 exports.index = function (req, res) {
@@ -35,21 +35,18 @@ exports.create = function (req, res) {
 		});
 	}
 
-	var name = req.body.name;
-	var email = req.body.email;
-	var username = req.body.username;
-	var password = req.body.password;
+	var values = req.body;
 
 	var user = new User({
 		diary: [{
 			entries: []
 		}],
-		email: email,
-		name: name,
-		username: username
+		email: values.email,
+		name: values.name,
+		username: values.username
 	});
 
-	helpers.password.hash(password, function (err, salt, hash) {
+	helpers.password.hash(values.password, function (err, salt, hash) {
 		if (err) {
 			throw err;
 		}
