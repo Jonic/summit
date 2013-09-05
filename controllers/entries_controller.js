@@ -58,7 +58,7 @@ exports.create = function (req, res) {
 		}
 
 		req.session.saved = true;
-		res.redirect('diary/' + user.username);
+		res.redirect('diary/' + req.session.auth.username);
 	});
 
 };
