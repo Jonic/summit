@@ -14,7 +14,6 @@ logs
 results
 
 npm-debug.log
-node_modules
 
 # Other ignored files and directories
 
