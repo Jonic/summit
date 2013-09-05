@@ -1,6 +1,7 @@
 var crypto = require('crypto');
 
 exports.hash = function (password, salt, next) {
+
 	var length = 128;
 	var iterations = 12000;
 
@@ -27,4 +28,5 @@ exports.hash = function (password, salt, next) {
 			});
 		});
 	}
+
 };

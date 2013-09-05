@@ -4,7 +4,7 @@ var User = require('../models/user');
 exports.home = function (req, res) {
 
 	res.render('application/home', {
-		title: 'Welcome'
+		title: 'Home'
 	});
 
 };
@@ -13,15 +13,6 @@ exports.home = function (req, res) {
 exports.dashboard = function (req, res) {
 
 	res.render('application/dashboard', {
-		title: 'Dashboard'
-	});
-
-};
-
-// GET: /diary/not-found
-exports.diaryNotFound = function (req, res) {
-
-	res.render('application/diaryNotFound', {
 		title: 'Dashboard'
 	});
 
