@@ -37,3 +37,12 @@ exports.show = function (req, res) {
 	});
 
 };
+
+// GET: /diary/not-found
+exports.notFound = function (req, res) {
+
+	res.render('diaries/notFound', {
+		title: 'Diary Not Found'
+	});
+
+};

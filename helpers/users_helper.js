@@ -1,15 +1,16 @@
+var User = require('../models/user');
+
 exports.getUser = function (req, res, next) {
 
-	var identifier = req.session.auth ? req.session.auth.username : req.body.identifier;
-
-	var email = req.body.email;
-	var username = req.body.username;
+	var identifier = req.param('identifier');
+	var email = req.param('email');
+	var username = req.param('username');
 
 	if (identifier) {
 		email = username = identifier;
 	}
 
-	require('../models/user').findOne({
+	User.findOne({
 		$or: [
 			{
 				email: {
@@ -22,7 +23,7 @@ exports.getUser = function (req, res, next) {
 				}
 			}
 		]
-	}, function (error, user) {
+	}, '-email -password', function (error, user) {
 		if (error) {
 			return next(error);
 		}

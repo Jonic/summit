@@ -16,6 +16,7 @@ exports.redirectToDashboardIfAuthenticated = function (req, res, next) {
 
 exports.clearAuthenticatedUser = function (req, res, next) {
 	delete req.session.auth;
+	delete res.locals.auth;
 
 	next();
 };

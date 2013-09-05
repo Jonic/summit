@@ -3,40 +3,29 @@ var User = require('../models/user');
 // GET: /diary/:username/entry/:entryid
 exports.show = function (req, res) {
 
-	var diaryUsername = req.params.username;
-	var entryId = req.params.entryId;
+	var diaryUser = req.user;
 
-	if (!diaryUsername || !entryId) {
-		res.redirect('/');
-	} else {
-		var diaryUser = User.findOne({
-			username: diaryUsername
-		}, function (err, diaryUser) {
-			if (err) {
-				return;
-			}
-
-			if (!diaryUser) {
-				return res.redirect('diary/not-found');
-			}
-
-			var entry = diaryUser.diary[0].entries.filter(function (entry) {
-				return entry._id.toString() === entryId;
-			})[0];
-
-			res.render('entries/show', {
-				diary: {
-					author: {
-						firstName: diaryUser.firstName,
-						username: diaryUser.username
-					},
-					diaryTitle: diaryUser.diary[0].name
-				},
-				entry: entry,
-				title: 'Diary Entry'
-			});
-		});
+	if (!diaryUser) {
+		return res.redirect('diary/not-found');
 	}
+
+	var diaryEntry = req.diaryEntry;
+
+	if (!diaryEntry) {
+		return res.redirect('diary/entry-not-found');
+	}
+
+	res.render('entries/show', {
+		diary: {
+			author: {
+				firstName: diaryUser.firstName,
+				username: diaryUser.username
+			},
+			diaryTitle: diaryUser.diary[0].name
+		},
+		entry: diaryEntry,
+		title: 'Diary Entry'
+	});
 
 };
 
@@ -70,6 +59,15 @@ exports.create = function (req, res) {
 
 		req.session.saved = true;
 		res.redirect('diary/' + user.username);
+	});
+
+};
+
+// GET: /diary/entry-not-found
+exports.notFound = function (req, res) {
+
+	res.render('entries/notFound', {
+		title: 'Entry Not Found'
 	});
 
 };
