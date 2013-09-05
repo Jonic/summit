@@ -1,35 +1,29 @@
-exports.getUser = function (req, res, next) {
+var User = require('../models/user');
 
-	var identifier = req.session.auth ? req.session.auth.username : req.body.identifier;
+exports.get = function (req, res, next) {
 
-	var email = req.body.email;
-	var username = req.body.username;
+	var username = res.locals.username || req.param('username');
 
-	if (identifier) {
-		email = username = identifier;
-	}
-
-	require('../models/user').findOne({
-		$or: [
-			{
-				email: {
-					$regex: new RegExp("^" + email, "i")
-				}
-			},
-			{
-				username: {
-					$regex: new RegExp("^" + username, "i")
-				}
-			}
-		]
-	}, function (error, user) {
-		if (error) {
-			return next(error);
+	User.findOne({
+		username: {
+			$regex: new RegExp("^" + username, "i")
+		}
+	}, function (err, user) {
+		if (err) {
+			return next(err);
 		}
 
 		req.user = user;
 
 		next();
 	});
+
+};
+
+exports.setAuthenticatedUsernameForLookup = function (req, res, next) {
+
+	res.locals.username = req.session.auth.username;
+
+	next();
 
 };
