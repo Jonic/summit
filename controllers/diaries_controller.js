@@ -3,38 +3,26 @@ var User = require('../models/user');
 // GET: /diary/:username
 exports.show = function (req, res) {
 
-	var diaryUsername = req.params.username;
+	var diaryUser = req.user;
 
-	if (!diaryUsername) {
+	if (!diaryUser) {
 		return res.redirect('diary/not-found');
 	}
 
-	var diaryUser = User.findOne({
-		username: diaryUsername
-	}, function (err, diaryUser) {
-		if (err) {
-			return;
-		}
-
-		if (!diaryUser) {
-			return res.redirect('diary/not-found');
-		}
-
-		res.render('diaries/show', {
-			diary: {
-				entries: diaryUser.diary[0].entries,
-				author: {
-					firstName: diaryUser.firstName,
-					username: diaryUser.username
-				},
-				diaryTitle: diaryUser.diary[0].name
+	res.render('diaries/show', {
+		diary: {
+			entries: diaryUser.diary[0].entries,
+			author: {
+				firstName: diaryUser.firstName,
+				username: diaryUser.username
 			},
-			saved: req.session.saved,
-			title: 'Diary Index'
-		});
-
-		req.session.saved = false;
+			diaryTitle: diaryUser.diary[0].name
+		},
+		saved: req.session.saved,
+		title: 'Diary Index'
 	});
+
+	req.session.saved = false;
 
 };
 
