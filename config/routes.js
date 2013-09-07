@@ -1,5 +1,5 @@
-var controllers = require('../controllers/_index');
-var helpers = require('../helpers/_index');
+var controllers = require('../app/controllers/_index');
+var helpers = require('../app/helpers/_index');
 
 module.exports = function (app) {
 
@@ -36,6 +36,20 @@ module.exports = function (app) {
 	], controllers.sessions.create);
 
 	app.get('/signout', controllers.sessions.destroy);
+
+	//	User Accounts
+
+	app.get('/your-profile', [
+		helpers.authentication.ensureAuthenticated,
+	], controllers.users.show);
+
+	app.get('/your-profile/edit', [
+		helpers.authentication.ensureAuthenticated,
+	], controllers.users.edit);
+
+	app.put('/your-profile/edit', [
+		helpers.authentication.ensureAuthenticated,
+	], controllers.users.update);
 
 	//	Diaries and Entries
 	app.get('/diary/new-entry', [
