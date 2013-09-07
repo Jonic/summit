@@ -1,5 +1,5 @@
-var controllers = require('../controllers/_index');
-var helpers = require('../helpers/_index');
+var controllers = require('../app/controllers/_index');
+var helpers = require('../app/helpers/_index');
 
 module.exports = function (app) {
 
