@@ -2,16 +2,6 @@ var User = require('../models/user');
 
 var helpers = require('../helpers/_index');
 
-// GET /users
-exports.index = function (req, res) {
-
-};
-
-// GET /users/1
-exports.show = function (req, res) {
-
-};
-
 // GET /signup
 exports.new = function (req, res) {
 
@@ -21,12 +11,7 @@ exports.new = function (req, res) {
 
 };
 
-// GET /users/1/edit
-exports.edit = function (req, res) {
-
-};
-
-// POST /users
+// POST /signup
 exports.create = function (req, res) {
 
 	if (req.user) {
@@ -73,8 +58,35 @@ exports.create = function (req, res) {
 
 };
 
-// PATCH/PUT /users/1
+// GET /your-profile
+exports.show = function (req, res) {
+
+	res.render('users/show', {
+		title: 'Your Account'
+	});
+
+};
+
+// GET /your-profile/edit
+exports.edit = function (req, res) {
+
+	res.render('users/edit', {
+		title: 'Edit Your Account'
+	});
+
+};
+
+// PATCH/PUT /your-profile/edit
 exports.update = function (req, res) {
+
+	res.redirect('/your-profile');
+
+};
+
+// PATCH/PUT /your-profile/change-password
+exports.update = function (req, res) {
+
+	res.redirect('/your-profile');
 
 };
 

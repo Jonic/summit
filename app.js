@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var mongostore = require('connect-mongo')(express);
 var path = require('path');
 
-require('./lib/db.js')();
+require('./config/db.js')();
 
 var mongostoreSettings = {
 	cookie: {
@@ -22,24 +22,21 @@ var mongostoreSettings = {
 };
 
 app.set('port', process.env.PORT || 3000);
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/app/views');
 app.set('view engine', 'hbs');
 
 app.use(express.bodyParser());
 app.use(express.cookieParser('you should know me better than that'));
+app.use(express.errorHandler());
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.methodOverride());
 app.use(express.session(mongostoreSettings));
-app.use(express.static(path.join(__dirname, 'assets')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 app.use(app.router);
 
-app.configure('development', function () {
-	app.use(express.errorHandler());
-});
-
-require('./lib/routes.js')(app);
+require('./config/routes.js')(app);
 
 http.createServer(app).listen(app.get('port'), function () {
 	console.log('Express server listening on port ' + app.get('port'));
