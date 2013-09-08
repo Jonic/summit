@@ -45,11 +45,41 @@ module.exports = function (app) {
 
 	app.get('/your-profile/edit', [
 		helpers.authentication.ensureAuthenticated,
+		helpers.users.setAuthenticatedUsernameForLookup,
+		helpers.users.get,
 	], controllers.users.edit);
 
-	app.put('/your-profile/edit', [
+	app.post('/your-profile/edit', [
 		helpers.authentication.ensureAuthenticated,
+		helpers.users.setAuthenticatedUsernameForLookup,
+		helpers.users.get,
 	], controllers.users.update);
+
+	app.post('/your-profile/change-email', [
+		helpers.authentication.ensureAuthenticated,
+		helpers.users.setAuthenticatedUsernameForLookup,
+		helpers.users.get,
+	], controllers.users.updateEmail);
+
+	app.get('/your-profile/verify-email/:key', [
+		helpers.users.get,
+	], controllers.users.verifyEmail);
+
+	app.post('/your-profile/change-password', [
+		helpers.authentication.ensureAuthenticated,
+		helpers.users.setAuthenticatedUsernameForLookup,
+		helpers.users.get,
+	], controllers.users.updatePassword);
+
+	app.get('/your-profile/delete', [
+		helpers.authentication.ensureAuthenticated
+	], controllers.users.delete);
+
+	app.post('/your-profile/delete', [
+		helpers.authentication.ensureAuthenticated,
+		helpers.users.setAuthenticatedUsernameForLookup,
+		helpers.users.get,
+	], controllers.users.destroy);
 
 	//	Diaries and Entries
 	app.get('/diary/new-entry', [
