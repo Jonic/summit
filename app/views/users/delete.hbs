@@ -2,6 +2,8 @@
 <a class="btn btn-primary" href="/your-profile/edit">Nah</a>
 <form action="/your-profile/delete" method="post">
 	<fieldset>
+		<input type="hidden" name="_csrf" value="{{token}}" />
+
 		<div class="form-group">
 			<label for="password">Password</label>
 			<input class="form-control" id="password" name="password" type="password" />

@@ -3,5 +3,13 @@
 
 {{#if entry}}
 	<h2>{{entry.content}}</h2>
-	<time><a href="/diary/{{diary.author.username}}/entry/{{entry._id}}">{{entry.niceDate}}</a></time>
+	<time><a href="/diary/{{author.username}}{{entry.permalink}}">{{entry.niceDate}}</a></time>
+
+	{{#if entry.editlink}}
+		<p>
+			<a href="/diary/{{author.username}}{{entry.editlink}}">Edit this Entry</a>
+			—
+			<a class="text-danger" href="/diary/{{author.username}}{{entry.deletelink}}">Delete this Entry</a>
+		</p>
+	{{/if}}
 {{/if}}

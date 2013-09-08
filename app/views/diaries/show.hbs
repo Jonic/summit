@@ -1,16 +1,20 @@
 
-{{#if saved}}
-	<div class="alert alert-success">
-		<p>SAVED YOUR BLOODY ENTRY</p>
-	</div>
-{{/if}}
+<h1>{{diary.title}}</h1>
 
-{{#if diary.entries}}
+{{#if entries}}
 	<ul>
-		{{#each diary.entries}}
+		{{#each entries}}
 			<li>
 				<h2>{{content}}</h2>
-				<time><a href="/diary/{{../diary.author.username}}/entry/{{_id}}">{{niceDate}}</a></time>
+				<time><a href="/diary/{{../author.username}}{{permalink}}">{{niceDate}}</a></time>
+
+				{{#if editlink}}
+					<p>
+						<a href="/diary/{{../../author.username}}{{editlink}}">Edit this Entry</a>
+						—
+						<a class="text-danger" href="/diary/{{../../author.username}}{{deletelink}}">Delete this Entry</a>
+					</p>
+				{{/if}}
 			</li>
 		{{/each}}
 	</ul>
@@ -24,7 +28,7 @@
 			{{#if auth.loggedin}}
 				SHOW NEW ENTRY FORM HERE
 			{{else}}
-				<p>{{diary.author.firstName}}'s diary doesn't have any entries yet!</p>
+				<p>{{author.firstName}}'s diary doesn't have any entries yet!</p>
 			{{/if}}
 		</div>
 	</div>
