@@ -34,6 +34,8 @@ app.use(express.methodOverride());
 app.use(express.session(mongostoreSettings));
 app.use(express.static(path.join(__dirname, '/public')));
 
+app.use(express.csrf());
+
 app.use(app.router);
 
 require('./config/routes.js')(app);

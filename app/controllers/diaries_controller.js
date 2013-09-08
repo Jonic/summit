@@ -3,26 +3,25 @@ var User = require('../models/user');
 // GET: /diary/:username
 exports.show = function (req, res) {
 
-	var diaryUser = req.user;
+	var user = req.user;
+	var diary = req.diary;
+	var entries = req.entries;
 
-	if (!diaryUser) {
+	if (!user) {
 		return res.redirect('diary/not-found');
 	}
 
+	var editLink = user.username === req.session.auth.username;
+
 	res.render('diaries/show', {
-		diary: {
-			entries: diaryUser.diary[0].entries,
-			author: {
-				firstName: diaryUser.firstName,
-				username: diaryUser.username
-			},
-			diaryTitle: diaryUser.diary[0].name
+		author: {
+			firstName: user.firstName,
+			username: user.username
 		},
-		saved: req.session.saved,
+		diary: diary,
+		entries: entries,
 		title: 'Diary Index'
 	});
-
-	req.session.saved = false;
 
 };
 

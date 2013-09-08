@@ -1,6 +1,8 @@
 
 	<form action="/diary/new-entry" method="post">
 		<fieldset>
+			<input type="hidden" name="_csrf" value="{{token}}" />
+
 			<div class="form-group">
 				<label for="content">What Happened Today?</label>
 				<textarea class="form-control" id="content" name="content"></textarea>
