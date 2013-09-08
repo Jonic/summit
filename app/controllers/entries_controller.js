@@ -3,27 +3,26 @@ var User = require('../models/user');
 // GET: /diary/:username/entry/:entryid
 exports.show = function (req, res) {
 
-	var diaryUser = req.user;
+	var user = req.user;
 
-	if (!diaryUser) {
+	if (!user) {
 		return res.redirect('diary/not-found');
 	}
 
-	var diaryEntry = req.diaryEntry;
+	var diary = req.diary;
+	var entry = req.entry;
 
-	if (!diaryEntry) {
+	if (!entry) {
 		return res.redirect('diary/entry-not-found');
 	}
 
 	res.render('entries/show', {
-		diary: {
-			author: {
-				firstName: diaryUser.firstName,
-				username: diaryUser.username
-			},
-			title: diaryUser.diary[0].title
+		author: {
+			firstName: user.firstName,
+			username: user.username
 		},
-		entry: diaryEntry,
+		diary: diary,
+		entry: entry,
 		title: 'Diary Entry'
 	});
 
@@ -42,23 +41,90 @@ exports.new = function (req, res) {
 exports.create = function (req, res) {
 
 	var content = req.body.content;
+
 	var user = req.user;
+	var entries = req.entries;
 
-	var diary = user.diary[0];
-
-	user.diary[0].entries.push({
+	entries.push({
 		content: content
 	});
 
 	user.save(function (err, user) {
-		var args = Array.prototype.slice.call(arguments);
-
 		if (err) {
 			throw err;
 		}
 
 		req.session.saved = true;
 		res.redirect('diary/' + req.session.auth.username);
+	});
+
+};
+
+// GET: /diary/:username/entry/:entryId/edit
+exports.edit = function (req, res) {
+
+	var user = req.user;
+	var entry = req.entry;
+
+	res.render('entries/edit', {
+		title: 'New Entry',
+		entry: entry,
+		user: user
+	});
+
+};
+
+// POST: /diary/:username/entry/:entryId/edit
+exports.update = function (req, res) {
+
+	var user = req.user;
+	var entry = req.entry;
+
+	entry.content = req.body.content;
+
+	user.save(function (err, user) {
+		if (err) {
+			throw err;
+		}
+
+		req.session.saved = true;
+		res.redirect('diary/' + req.session.auth.username + '/entry/' + entry._id);
+	});
+
+};
+
+// GET: /diary/:username/entry/:entryId/delete
+exports.delete = function (req, res) {
+
+	var user = req.user;
+	var entry = req.entry;
+
+	res.render('entries/delete', {
+		title: 'Delete Entry',
+		user: user,
+		entry: entry
+	});
+
+};
+
+// POST: /diary/:username/entry/:entryId/delete
+exports.destroy = function (req, res) {
+
+	var user = req.user;
+	var entry = req.entry;
+
+	entry.remove(function (err, entry) {
+		if (err) {
+			throw err;
+		}
+
+		user.save(function (err, entry) {
+			if (err) {
+				throw err;
+			}
+
+			res.redirect('/diary/' + user.username);
+		});
 	});
 
 };

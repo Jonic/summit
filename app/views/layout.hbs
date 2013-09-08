@@ -31,6 +31,12 @@
 		<div class="container">
 			<h1>{{title}}</h1>
 
+			{{#if saved}}
+				<div class="alert alert-success">
+					<p>SAVED YOUR BLOODY ENTRY</p>
+				</div>
+			{{/if}}
+
 {{{body}}}
 		</div>
 	</body>

@@ -1,0 +1,13 @@
+
+	<form action="/diary/{{user.username}}/entry/{{entry._id}}/edit" method="post">
+		<fieldset>
+			<input type="hidden" name="_csrf" value="{{token}}" />
+
+			<div class="form-group">
+				<label for="content">Update Diary Entry</label>
+				<textarea class="form-control" id="content" name="content">{{entry.content}}</textarea>
+			</div>
+
+			<button class="btn btn-primary" type="submit">Summit Up Again</button>
+		</fieldset>
+	</form>

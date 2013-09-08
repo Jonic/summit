@@ -97,6 +97,34 @@ module.exports = function (app) {
 		helpers.entries.getEntryById,
 	], controllers.entries.show);
 
+	app.get('/diary/:username/entry/:entryId/edit', [
+		helpers.authentication.ensureAuthenticated,
+		helpers.users.setAuthenticatedUsernameForLookup,
+		helpers.users.get,
+		helpers.entries.getEntryById,
+	], controllers.entries.edit);
+
+	app.post('/diary/:username/entry/:entryId/edit', [
+		helpers.authentication.ensureAuthenticated,
+		helpers.users.setAuthenticatedUsernameForLookup,
+		helpers.users.get,
+		helpers.entries.getEntryById,
+	], controllers.entries.update);
+
+	app.get('/diary/:username/entry/:entryId/delete', [
+		helpers.authentication.ensureAuthenticated,
+		helpers.users.setAuthenticatedUsernameForLookup,
+		helpers.users.get,
+		helpers.entries.getEntryById,
+	], controllers.entries.delete);
+
+	app.post('/diary/:username/entry/:entryId/delete', [
+		helpers.authentication.ensureAuthenticated,
+		helpers.users.setAuthenticatedUsernameForLookup,
+		helpers.users.get,
+		helpers.entries.getEntryById,
+	], controllers.entries.destroy);
+
 	app.get('/diary/not-found', controllers.diaries.notFound);
 	app.get('/diary/entry-not-found', controllers.entries.notFound);
 
