@@ -10,6 +10,9 @@ exports.show = function (req, res) {
 	}
 
 	var diary = req.diary;
+
+	diary.isOwner = user.username === req.session.auth.username;
+
 	var entry = req.entry;
 
 	if (!entry) {
@@ -23,7 +26,9 @@ exports.show = function (req, res) {
 		},
 		diary: diary,
 		entry: entry,
-		title: 'Diary Entry'
+		page: {
+			title: 'Diary Entry'
+		}
 	});
 
 };
@@ -32,7 +37,9 @@ exports.show = function (req, res) {
 exports.new = function (req, res) {
 
 	res.render('entries/new', {
-		title: 'New Entry'
+		page: {
+			title: 'New Entry'
+		}
 	});
 
 };
@@ -67,8 +74,10 @@ exports.edit = function (req, res) {
 	var entry = req.entry;
 
 	res.render('entries/edit', {
-		title: 'New Entry',
 		entry: entry,
+		page: {
+			title: 'Edit Entry'
+		},
 		user: user
 	});
 
@@ -100,9 +109,11 @@ exports.delete = function (req, res) {
 	var entry = req.entry;
 
 	res.render('entries/delete', {
-		title: 'Delete Entry',
-		user: user,
-		entry: entry
+		entry: entry,
+		page: {
+			title: 'Delete Entry'
+		},
+		user: user
 	});
 
 };
@@ -133,7 +144,9 @@ exports.destroy = function (req, res) {
 exports.notFound = function (req, res) {
 
 	res.render('entries/notFound', {
-		title: 'Entry Not Found'
+		page: {
+			title: 'Entry Not Found'
+		}
 	});
 
 };

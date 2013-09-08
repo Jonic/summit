@@ -1,23 +1,22 @@
 
-<h1>{{diary.title}}</h1>
-
 {{#if entries}}
-	<ul>
-		{{#each entries}}
-			<li>
-				<h2>{{content}}</h2>
+	{{#each entries}}
+		<article>
+			<header>
 				<time><a href="/diary/{{../author.username}}{{permalink}}">{{niceDate}}</a></time>
+			</header>
 
-				{{#if editlink}}
-					<p>
-						<a href="/diary/{{../../author.username}}{{editlink}}">Edit this Entry</a>
-						—
-						<a class="text-danger" href="/diary/{{../../author.username}}{{deletelink}}">Delete this Entry</a>
-					</p>
-				{{/if}}
-			</li>
-		{{/each}}
-	</ul>
+			<p>{{content}}</p>
+
+			{{#if ../diary.isOwner}}
+				<footer>
+					<a href="/diary/{{../../author.username}}{{editlink}}">Edit this Entry</a>
+					—
+					<a class="text-danger" href="/diary/{{../../author.username}}{{deletelink}}">Delete this Entry</a>
+				</footer>
+			{{/if}}
+		</article>
+	{{/each}}
 {{else}}
 	<div class="panel panel-info">
 		<div class="panel-heading">

@@ -11,7 +11,7 @@ exports.show = function (req, res) {
 		return res.redirect('diary/not-found');
 	}
 
-	var editLink = user.username === req.session.auth.username;
+	diary.isOwner = user.username === req.session.auth.username;
 
 	res.render('diaries/show', {
 		author: {
@@ -20,7 +20,9 @@ exports.show = function (req, res) {
 		},
 		diary: diary,
 		entries: entries,
-		title: 'Diary Index'
+		page: {
+			title: diary.title
+		}
 	});
 
 };
@@ -29,7 +31,9 @@ exports.show = function (req, res) {
 exports.notFound = function (req, res) {
 
 	res.render('diaries/notFound', {
-		title: 'Diary Not Found'
+		page: {
+			title: 'Diary Not Found'
+		}
 	});
 
 };

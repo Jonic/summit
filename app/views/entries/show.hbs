@@ -1,15 +1,18 @@
 
-<p>Individual diary entry</p>
-
 {{#if entry}}
-	<h2>{{entry.content}}</h2>
-	<time><a href="/diary/{{author.username}}{{entry.permalink}}">{{entry.niceDate}}</a></time>
+	<article>
+		<header>
+			<time><a href="/diary/{{author.username}}{{entry.permalink}}">{{entry.niceDate}}</a></time>
+		</header>
 
-	{{#if entry.editlink}}
-		<p>
+		<p>{{entry.content}}</p>
+
+	{{#if diary.isOwner}}
+		<footer>
 			<a href="/diary/{{author.username}}{{entry.editlink}}">Edit this Entry</a>
 			—
 			<a class="text-danger" href="/diary/{{author.username}}{{entry.deletelink}}">Delete this Entry</a>
-		</p>
+		</footer>
 	{{/if}}
+	</article>
 {{/if}}
