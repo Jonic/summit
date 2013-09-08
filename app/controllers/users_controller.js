@@ -6,7 +6,9 @@ var helpers = require('../helpers/_index');
 exports.new = function (req, res) {
 
 	res.render('users/new', {
-		title: 'sign up for DiaryApp'
+		page: {
+			title: 'Create an Account'
+		}
 	});
 
 };
@@ -16,7 +18,9 @@ exports.create = function (req, res) {
 
 	if (req.user) {
 		return res.render('users/new', {
-			title: 'Email or username in use!'
+			page: {
+				title: 'Email or username in use!'
+			}
 		});
 	}
 
@@ -62,7 +66,9 @@ exports.create = function (req, res) {
 exports.show = function (req, res) {
 
 	res.render('users/show', {
-		title: 'Your Account'
+		page: {
+			title: 'Your Profile'
+		}
 	});
 
 };
@@ -70,12 +76,12 @@ exports.show = function (req, res) {
 // GET /your-profile/edit
 exports.edit = function (req, res) {
 
-	user = req.user;
-
 	res.render('users/edit', {
-		title: 'Edit Your Account',
-		user: req.user,
-		diary: req.user.diary[0]
+		diary: req.diary,
+		page: {
+			title: 'Edit Your Profile',
+		},
+		user: req.user
 	});
 
 };
@@ -84,9 +90,10 @@ exports.edit = function (req, res) {
 exports.update = function (req, res) {
 
 	var user = req.user;
+	var diary = req.diary;
 
 	user.name = req.body.name;
-	user.diary[0].title = req.body.diaryTitle;
+	user.diary = req.body.diaryTitle;
 
 	user.save(function (err, user) {
 		if (err) {
@@ -103,8 +110,6 @@ exports.updateEmail = function (req, res) {
 
 	var user = req.user;
 
-	console.log(user);
-
 	if (user.email === req.body.email) {
 		return res.redirect('/your-profile/edit');
 	}
@@ -120,7 +125,9 @@ exports.updateEmail = function (req, res) {
 
 		if (userExists) {
 			return res.render('users/edit', {
-				title: 'Email Address In Use!',
+				page: {
+					title: 'Email Address In Use!'
+				},
 				user: user
 			});
 		} else {

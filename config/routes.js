@@ -78,7 +78,7 @@ module.exports = function (app) {
 	app.post('/your-profile/delete', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.setAuthenticatedUsernameForLookup,
-		helpers.users.get,
+		helpers.users.get
 	], controllers.users.destroy);
 
 	//	Diaries and Entries
