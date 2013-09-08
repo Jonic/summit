@@ -74,7 +74,8 @@ exports.edit = function (req, res) {
 
 	res.render('users/edit', {
 		title: 'Edit Your Account',
-		user: req.user
+		user: req.user,
+		diary: req.user.diary[0]
 	});
 
 };
@@ -85,6 +86,7 @@ exports.update = function (req, res) {
 	var user = req.user;
 
 	user.name = req.body.name;
+	user.diary[0].name = req.body.diaryName;
 
 	user.save(function (err, user) {
 		if (err) {
@@ -103,8 +105,7 @@ exports.updateEmail = function (req, res) {
 
 	console.log(user);
 
-	if (user.email
-		=== req.body.email) {
+	if (user.email === req.body.email) {
 		return res.redirect('/your-profile/edit');
 	}
 
