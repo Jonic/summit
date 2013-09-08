@@ -70,27 +70,159 @@ exports.show = function (req, res) {
 // GET /your-profile/edit
 exports.edit = function (req, res) {
 
+	user = req.user;
+
 	res.render('users/edit', {
-		title: 'Edit Your Account'
+		title: 'Edit Your Account',
+		user: req.user
 	});
 
 };
 
-// PATCH/PUT /your-profile/edit
+// POST /your-profile/edit
 exports.update = function (req, res) {
+
+	var user = req.user;
+
+	user.name = req.body.name;
+
+	user.save(function (err, user) {
+		if (err) {
+			throw err;
+		}
+
+		res.redirect('/your-profile/edit');
+	});
+
+};
+
+// POST /your-profile/change-email
+exports.updateEmail = function (req, res) {
+
+	var user = req.user;
+
+	console.log(user);
+
+	if (user.email
+		=== req.body.email) {
+		return res.redirect('/your-profile/edit');
+	}
+
+	User.findOne({
+		email: {
+			$regex: new RegExp("^" + req.body.email, "i")
+		}
+	}, function (err, userExists) {
+		if (err) {
+			throw err;
+		}
+
+		if (userExists) {
+			return res.render('users/edit', {
+				title: 'Email Address In Use!',
+				user: user
+			});
+		} else {
+			user.email = req.body.email;
+
+			user.save(function (err, user) {
+				if (err) {
+					throw err;
+				}
+
+				return res.redirect('/your-profile/edit');
+			});
+		}
+	});
+
+};
+
+// GET /your-profile/verify-email/:key
+exports.verifyEmail = function (req, res) {
 
 	res.redirect('/your-profile');
 
 };
 
-// PATCH/PUT /your-profile/change-password
-exports.update = function (req, res) {
+// POST /your-profile/change-password
+exports.updatePassword = function (req, res) {
 
-	res.redirect('/your-profile');
+	var user = req.user;
+
+	var password = req.body.password;
+	var passwordNew = req.body.passwordNew;
+	var passwordRepeat = req.body.passwordRepeat;
+
+	helpers.password.hash(password, user.password.salt, function (err, hash) {
+		if (err) {
+			return fn(err);
+		}
+
+		if (hash === user.password.hash) {
+			if (passwordNew === passwordRepeat) {
+				helpers.password.hash(passwordNew, function (err, salt, hash) {
+					if (err) {
+						throw err;
+					}
+
+					user.password = {
+						salt: salt,
+						hash: hash
+					};
+
+					user.save(function (err, user) {
+						if (err) {
+							return next(err);
+						}
+
+						res.redirect('/your-profile/edit');
+					});
+				});
+			} else {
+				console.log('passwords did not match');
+				res.redirect('/your-profile/edit');
+			}
+		} else {
+			console.log('could not verify password');
+			res.redirect('/your-profile/edit');
+		}
+	});
 
 };
 
-// DELETE /users/1
+// GET /your-profile/delete
+exports.delete = function (req, res) {
+
+	return res.render('users/delete');
+
+};
+
+// POST /your-profile/delete
 exports.destroy = function (req, res) {
+
+	var user = req.user;
+
+	var password = req.body.password;
+
+	helpers.password.hash(password, user.password.salt, function (err, hash) {
+		if (err) {
+			return fn(err);
+		}
+
+		if (hash === user.password.hash) {
+			user.remove(function (err, user) {
+				if (err) {
+					throw err;
+				}
+
+				helpers.authentication.clearAuthenticatedUser(req, res, function () {
+					res.redirect('/signup');
+				});
+			});
+		} else {
+			console.log('could not verify password');
+			res.redirect('/your-profile/edit');
+		}
+	});
 
 };

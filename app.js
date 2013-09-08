@@ -28,7 +28,7 @@ app.set('view engine', 'hbs');
 app.use(express.bodyParser());
 app.use(express.cookieParser('you should know me better than that'));
 app.use(express.errorHandler());
-app.use(express.favicon());
+app.use(express.favicon(path.join(__dirname, 'public/images/favicon.ico')));
 app.use(express.logger('dev'));
 app.use(express.methodOverride());
 app.use(express.session(mongostoreSettings));
