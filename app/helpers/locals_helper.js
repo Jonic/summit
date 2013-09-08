@@ -4,6 +4,8 @@ exports.set = function (req, res, next) {
 		res.locals.auth = req.session.auth;
 	}
 
+	res.locals.token = req.session._csrf;
+
 	next();
 
 };

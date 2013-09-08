@@ -21,7 +21,7 @@ exports.show = function (req, res) {
 				firstName: diaryUser.firstName,
 				username: diaryUser.username
 			},
-			diaryTitle: diaryUser.diary[0].name
+			title: diaryUser.diary[0].title
 		},
 		entry: diaryEntry,
 		title: 'Diary Entry'

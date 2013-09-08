@@ -86,7 +86,7 @@ exports.update = function (req, res) {
 	var user = req.user;
 
 	user.name = req.body.name;
-	user.diary[0].name = req.body.diaryName;
+	user.diary[0].title = req.body.diaryTitle;
 
 	user.save(function (err, user) {
 		if (err) {

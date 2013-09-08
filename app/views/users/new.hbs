@@ -1,6 +1,8 @@
 
 <form action="/signup" method="post">
 	<fieldset>
+		<input type="hidden" name="_csrf" value="{{token}}" />
+
 		<div class="form-group">
 			<label for="name">Your Name</label>
 			<input class="form-control" id="name" name="name" type="text" value="Jonic Linley" />

@@ -5,7 +5,7 @@ var Entry = require('./entry');
 
 var diarySchema = new Schema({
 	entries: [Entry],
-	name: {
+	title: {
 		default: 'My Diary',
 		type: String
 	}

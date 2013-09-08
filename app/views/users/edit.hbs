@@ -3,14 +3,16 @@
 
 <form action="/your-profile/edit" method="post">
 	<fieldset>
+		<input type="hidden" name="_csrf" value="{{token}}" />
+
 		<div class="form-group">
 			<label for="name">Your Name</label>
 			<input class="form-control" id="name" name="name" type="text" value="{{user.name}}" />
 		</div>
 
 		<div class="form-group">
-			<label for="diaryName">Diary Title</label>
-			<input class="form-control" id="diaryName" name="diaryName" type="text" value="{{diary.name}}" />
+			<label for="diaryTitle">Diary Title</label>
+			<input class="form-control" id="diaryTitle" name="diaryTitle" type="text" value="{{diary.title}}" />
 		</div>
 
 		<button class="btn btn-primary" type="submit">Update</button>
@@ -21,6 +23,8 @@
 
 <form action="/your-profile/change-email" method="post">
 	<fieldset>
+		<input type="hidden" name="_csrf" value="{{token}}" />
+
 		<div class="form-group">
 			<label for="email">Email Address</label>
 			<input class="form-control" id="email" name="email" type="email" value="{{user.email}}" />
@@ -34,6 +38,8 @@
 
 <form action="/your-profile/change-password" method="post">
 	<fieldset>
+		<input type="hidden" name="_csrf" value="{{token}}" />
+
 		<div class="form-group">
 			<label for="current-password">Current Password</label>
 			<input class="form-control" id="current-password" name="password" type="password" />
