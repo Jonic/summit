@@ -1,22 +1,19 @@
+{{#each entries}}
+	<article>
+		<header>
+			<time><a href="/diary/{{../author.username}}{{permalink}}">{{niceDate}}</a></time>
+		</header>
 
-{{#if entries}}
-	{{#each entries}}
-		<article>
-			<header>
-				<time><a href="/diary/{{../author.username}}{{permalink}}">{{niceDate}}</a></time>
-			</header>
+		<p>{{content}}</p>
 
-			<p>{{content}}</p>
-
-			{{#if ../diary.isOwner}}
-				<footer>
-					<a href="/diary/{{../../author.username}}{{editlink}}">Edit this Entry</a>
-					—
-					<a class="text-danger" href="/diary/{{../../author.username}}{{deletelink}}">Delete this Entry</a>
-				</footer>
-			{{/if}}
-		</article>
-	{{/each}}
+		{{#if ../diary.isOwner}}
+			<footer>
+				<a href="/diary/{{../../author.username}}{{editlink}}">Edit this Entry</a>
+				—
+				<a class="text-danger" href="/diary/{{../../author.username}}{{deletelink}}">Delete this Entry</a>
+			</footer>
+		{{/if}}
+	</article>
 {{else}}
 	<div class="panel panel-info">
 		<div class="panel-heading">
@@ -31,4 +28,4 @@
 			{{/if}}
 		</div>
 	</div>
-{{/if}}
+{{/each}}
