@@ -1,4 +1,4 @@
-var User = require('../models/user');
+'use strict';
 
 var helpers = require('../helpers/_index');
 
@@ -19,7 +19,7 @@ exports.new = function (req, res) {
 };
 
 // POST: /signin
-exports.create = function (req, res, next) {
+exports.create = function (req, res) {
 
 	var user = req.user;
 
@@ -35,7 +35,7 @@ exports.create = function (req, res, next) {
 
 	helpers.password.hash(password, user.password.salt, function (err, hash) {
 		if (err) {
-			return fn(err);
+			throw err;
 		}
 
 		if (hash === user.password.hash) {
@@ -45,7 +45,7 @@ exports.create = function (req, res, next) {
 				username: user.username
 			}, req, res, function (req, res) {
 				var redirectDestination = req.body.redirectDestination || '/dashboard';
-
+				console.log(redirectDestination);
 				res.redirect(redirectDestination);
 			});
 		}
