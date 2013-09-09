@@ -86,7 +86,7 @@ exports.edit = function (req, res) {
 
 };
 
-// POST /your-profile/edit
+// PATCH/PUT /your-profile/edit
 exports.update = function (req, res) {
 
 	var user = req.user;
@@ -105,7 +105,7 @@ exports.update = function (req, res) {
 
 };
 
-// POST /your-profile/change-email
+// PATCH/PUT /your-profile/change-email
 exports.updateEmail = function (req, res) {
 
 	var user = req.user;
@@ -124,12 +124,7 @@ exports.updateEmail = function (req, res) {
 		}
 
 		if (userExists) {
-			return res.render('users/edit', {
-				page: {
-					title: 'Email Address In Use!'
-				},
-				user: user
-			});
+			return res.redirect('/your-profile/edit');
 		} else {
 			user.email = req.body.email;
 
@@ -152,14 +147,13 @@ exports.verifyEmail = function (req, res) {
 
 };
 
-// POST /your-profile/change-password
+// PATCH/PUT /your-profile/change-password
 exports.updatePassword = function (req, res) {
-
-	var user = req.user;
 
 	var password = req.body.password;
 	var passwordNew = req.body.passwordNew;
 	var passwordRepeat = req.body.passwordRepeat;
+	var user = req.user;
 
 	helpers.password.hash(password, user.password.salt, function (err, hash) {
 		if (err) {
@@ -205,11 +199,10 @@ exports.delete = function (req, res) {
 
 };
 
-// POST /your-profile/delete
+// DELETE /your-profile/delete
 exports.destroy = function (req, res) {
 
 	var user = req.user;
-
 	var password = req.body.password;
 
 	helpers.password.hash(password, user.password.salt, function (err, hash) {

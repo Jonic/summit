@@ -1,4 +1,3 @@
-
 {{#if entry}}
 	<article>
 		<header>
@@ -7,12 +6,12 @@
 
 		<p>{{entry.content}}</p>
 
-	{{#if diary.isOwner}}
-		<footer>
-			<a href="/diary/{{author.username}}{{entry.editlink}}">Edit this Entry</a>
-			—
-			<a class="text-danger" href="/diary/{{author.username}}{{entry.deletelink}}">Delete this Entry</a>
-		</footer>
-	{{/if}}
+		{{#if diary.isOwner}}
+			<footer>
+				<a href="/diary/{{author.username}}{{entry.editlink}}">Edit this Entry</a>
+				—
+				<a class="text-danger" href="/diary/{{author.username}}{{entry.deletelink}}">Delete this Entry</a>
+			</footer>
+		{{/if}}
 	</article>
 {{/if}}
