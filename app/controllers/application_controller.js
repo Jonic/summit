@@ -21,3 +21,14 @@ exports.dashboard = function (req, res) {
 	});
 
 };
+
+// GET: /not-authorised
+exports.notAuthorised = function (req, res) {
+
+	res.render('application/notAuthorised', {
+		page: {
+			title: 'You are not authorised for that!'
+		}
+	});
+
+};
