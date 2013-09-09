@@ -61,7 +61,6 @@ exports.create = function (req, res) {
 			throw err;
 		}
 
-		req.session.saved = true;
 		res.redirect('diary/' + req.session.auth.username);
 	});
 
@@ -96,7 +95,6 @@ exports.update = function (req, res) {
 			throw err;
 		}
 
-		req.session.saved = true;
 		res.redirect('diary/' + req.session.auth.username + '/entry/' + entry._id);
 	});
 
