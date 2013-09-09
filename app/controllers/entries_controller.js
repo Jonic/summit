@@ -1,4 +1,4 @@
-var User = require('../models/user');
+'use strict';
 
 // GET: /diary/:username/entry/:entryid
 exports.show = function (req, res) {
@@ -56,7 +56,7 @@ exports.create = function (req, res) {
 		content: content
 	});
 
-	user.save(function (err, user) {
+	user.save(function (err) {
 		if (err) {
 			throw err;
 		}
@@ -90,7 +90,7 @@ exports.update = function (req, res) {
 
 	entry.content = req.body.content;
 
-	user.save(function (err, user) {
+	user.save(function (err) {
 		if (err) {
 			throw err;
 		}
@@ -122,12 +122,12 @@ exports.destroy = function (req, res) {
 	var user = req.user;
 	var entry = req.entry;
 
-	entry.remove(function (err, entry) {
+	entry.remove(function (err) {
 		if (err) {
 			throw err;
 		}
 
-		user.save(function (err, entry) {
+		user.save(function (err) {
 			if (err) {
 				throw err;
 			}
@@ -144,6 +144,17 @@ exports.notFound = function (req, res) {
 	res.render('entries/notFound', {
 		page: {
 			title: 'Entry Not Found'
+		}
+	});
+
+};
+
+// GET: /diary/private-account
+exports.privateAccount = function (req, res) {
+
+	res.render('entries/privateAccount', {
+		page: {
+			title: 'Private Account'
 		}
 	});
 

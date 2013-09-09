@@ -1,3 +1,5 @@
+'use strict';
+
 var User = require('../models/user');
 
 exports.get = function (req, res, next) {
@@ -37,6 +39,16 @@ exports.ensureAuthorised = function (req, res, next) {
 
 	if (req.username !== req.session.auth.username) {
 		return res.redirect('/not-authorised');
+	}
+
+	next();
+
+};
+
+exports.ensurePublicAccount = function (req, res, next) {
+
+	if (req.user.privateAccount) {
+		return res.redirect('/diary/private-account');
 	}
 
 	next();

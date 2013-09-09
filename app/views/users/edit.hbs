@@ -17,6 +17,10 @@
 					<input class="form-control" id="diaryTitle" name="diaryTitle" type="text" value="{{diary.title}}" />
 				</div>
 
+				<div class="checkbox">
+					<label><input type="checkbox" name="privateAccount" {{#if user.privateAccount}}checked="checked"{{/if}} value="true" /> Private account</label>
+				</div>
+
 				<button class="btn btn-primary" type="submit">Update</button>
 			</fieldset>
 		</form>

@@ -1,3 +1,5 @@
+'use strict';
+
 var User = require('../models/user');
 
 var helpers = require('../helpers/_index');
@@ -32,6 +34,7 @@ exports.create = function (req, res) {
 		}],
 		email: values.email,
 		name: values.name,
+		privateAccount: values.privateAccount || false,
 		username: values.username
 	});
 
@@ -47,7 +50,7 @@ exports.create = function (req, res) {
 
 		user.save(function (err, user) {
 			if (err) {
-				return next(err);
+				throw err;
 			}
 
 			return helpers.authentication.setAuthenticatedUser({
@@ -93,9 +96,10 @@ exports.update = function (req, res) {
 	var diary = req.diary;
 
 	user.name = req.body.name;
+	user.privateAccount = req.body.privateAccount || false;
 	diary.title = req.body.diaryTitle;
 
-	user.save(function (err, user) {
+	user.save(function (err) {
 		if (err) {
 			throw err;
 		}
@@ -128,7 +132,7 @@ exports.updateEmail = function (req, res) {
 		} else {
 			user.email = req.body.email;
 
-			user.save(function (err, user) {
+			user.save(function (err) {
 				if (err) {
 					throw err;
 				}
@@ -157,7 +161,7 @@ exports.updatePassword = function (req, res) {
 
 	helpers.password.hash(password, user.password.salt, function (err, hash) {
 		if (err) {
-			return fn(err);
+			throw err;
 		}
 
 		if (hash === user.password.hash) {
@@ -172,9 +176,9 @@ exports.updatePassword = function (req, res) {
 						hash: hash
 					};
 
-					user.save(function (err, user) {
+					user.save(function (err) {
 						if (err) {
-							return next(err);
+							throw err;
 						}
 
 						res.redirect('/your-profile/edit');
@@ -207,11 +211,11 @@ exports.destroy = function (req, res) {
 
 	helpers.password.hash(password, user.password.salt, function (err, hash) {
 		if (err) {
-			return fn(err);
+			throw err;
 		}
 
 		if (hash === user.password.hash) {
-			user.remove(function (err, user) {
+			user.remove(function (err) {
 				if (err) {
 					throw err;
 				}

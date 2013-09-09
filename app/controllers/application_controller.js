@@ -1,4 +1,4 @@
-var User = require('../models/user');
+'use strict';
 
 // GET: /
 exports.home = function (req, res) {
