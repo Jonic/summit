@@ -1,16 +1,42 @@
+//	The core Express app
 var express = require('express');
+var app     = express();
 
-var app = express();
-var flash = require('connect-flash');
-var hbs = require('hbs');
-var http = require('http');
-var mongoose = require('mongoose');
+//	Module dependencies
+var flash      = require('connect-flash');
+var hbs        = require('hbs');
+var http       = require('http');
+var mongoose   = require('mongoose');
 var mongostore = require('connect-mongo')(express);
-var path = require('path');
+var path       = require('path');
 
+//	Create database connection
 require('./config/db.js')();
 
-var mongostoreSettings = {
+//	Define view engine and layouts
+app.set('view engine', 'hbs');
+app.set('views', __dirname + '/app/views');
+
+//	Use bodyParser to accept file uploads
+app.use(express.bodyParser());
+
+//	Configure cookie parser
+app.use(express.cookieParser('you should know me better than that'));
+
+//	Enable HTTP error handler
+app.use(express.errorHandler());
+
+//	Configure favicon
+app.use(express.favicon(path.join(__dirname, 'public/images/favicon.ico')));
+
+//	Turn console logging on
+app.use(express.logger('dev'));
+
+//	Enable PUT/DELETE HTTP verbs in routes
+app.use(express.methodOverride());
+
+//	Configure session storage
+app.use(express.session({
 	cookie: {
 		maxAge: (60 * 60 * 24 * 28 * 1000) // 28 days in miliseconds
 	},
@@ -20,28 +46,30 @@ var mongostoreSettings = {
 	}, function (err) {
 		console.log(err || 'connect-mongodb setup ok');
 	})
-};
+}));
 
-app.set('port', process.env.PORT || 3000);
-app.set('views', __dirname + '/app/views');
-app.set('view engine', 'hbs');
-
-app.use(express.bodyParser());
-app.use(express.cookieParser('you should know me better than that'));
-app.use(express.errorHandler());
-app.use(express.favicon(path.join(__dirname, 'public/images/favicon.ico')));
-app.use(express.logger('dev'));
-app.use(express.methodOverride());
-app.use(express.session(mongostoreSettings));
+//	Define static assets
 app.use(express.static(path.join(__dirname, '/public')));
 
+//	Enable CSRF Protection
 app.use(express.csrf());
+
+//	Enable connect-flash module
 app.use(flash());
 
+//	Enable use of routes
 app.use(app.router);
 
+//	Define routes for application
 require('./config/routes.js')(app);
 
-http.createServer(app).listen(app.get('port'), function () {
+//	Set server port
+app.set('port', process.env.PORT || 3000);
+
+// Create HTTP server
+var server = http.createServer(app);
+
+// Listen to port 3000
+server.listen(app.get('port'), function () {
 	console.log('Express server listening on port ' + app.get('port'));
 });
