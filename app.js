@@ -11,9 +11,6 @@ var path = require('path');
 require('./config/db.js')();
 
 var mongostoreSettings = {
-	cookie: {
-		maxAge: (60 * 60 * 24 * 28)
-	},
 	secret: 'i should live in salt for leaving you behind',
 	store: new mongostore({
 		db:mongoose.connection.db
