@@ -1,6 +1,7 @@
 exports.ensureAuthenticated = function (req, res, next) {
 
 	if (!req.session.auth) {
+		req.session.redirectDestination = req.path;
 		return res.redirect('/signin');
 	}
 

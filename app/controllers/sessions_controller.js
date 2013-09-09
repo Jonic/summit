@@ -5,10 +5,15 @@ var helpers = require('../helpers/_index');
 // GET: /signin
 exports.new = function (req, res) {
 
+	var redirectDestination = req.session.redirectDestination;
+
+	delete req.session.redirectDestination;
+
 	res.render('sessions/new', {
 		page: {
 			title: 'Sign In'
-		}
+		},
+		redirectDestination: redirectDestination
 	});
 
 };
@@ -39,7 +44,9 @@ exports.create = function (req, res, next) {
 				firstName: user.firstName,
 				username: user.username
 			}, req, res, function (req, res) {
-				res.redirect('/dashboard');
+				var redirectDestination = req.body.redirectDestination || '/dashboard';
+
+				res.redirect(redirectDestination);
 			});
 		}
 
