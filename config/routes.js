@@ -3,9 +3,12 @@ var helpers = require('../app/helpers/_index');
 
 module.exports = function (app) {
 
+	//	Catch-all Routes
 	app.all('*', [
 		helpers.locals.set
 	]);
+
+
 
 	//	Generic Routes
 	app.get('/', [
@@ -17,6 +20,8 @@ module.exports = function (app) {
 	], controllers.application.dashboard);
 
 	app.get('/not-authorised', controllers.application.notAuthorised);
+
+
 
 	//	Session Management
 	app.get('/signup', [
@@ -39,8 +44,9 @@ module.exports = function (app) {
 
 	app.get('/signout', controllers.sessions.destroy);
 
-	//	User Accounts
 
+
+	//	User Accounts
 	app.get('/your-profile', [
 		helpers.authentication.ensureAuthenticated,
 	], controllers.users.show);
@@ -83,7 +89,9 @@ module.exports = function (app) {
 		helpers.users.get
 	], controllers.users.destroy);
 
-	//	Diaries and Entries
+
+
+	//	Entries
 	app.get('/diary/new-entry', [
 		helpers.authentication.ensureAuthenticated
 	], controllers.entries.new);
@@ -127,8 +135,12 @@ module.exports = function (app) {
 		helpers.entries.getEntryById,
 	], controllers.entries.destroy);
 
-	app.get('/diary/not-found', controllers.diaries.notFound);
 	app.get('/diary/entry-not-found', controllers.entries.notFound);
+
+
+
+	//	Diaries
+	app.get('/diary/not-found', controllers.diaries.notFound);
 
 	app.get('/diary/:username', [
 		helpers.users.get,
