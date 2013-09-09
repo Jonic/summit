@@ -129,17 +129,17 @@ exports.updateEmail = function (req, res) {
 
 		if (userExists) {
 			return res.redirect('/your-profile/edit');
-		} else {
-			user.email = req.body.email;
-
-			user.save(function (err) {
-				if (err) {
-					throw err;
-				}
-
-				return res.redirect('/your-profile/edit');
-			});
 		}
+
+		user.email = req.body.email;
+
+		user.save(function (err) {
+			if (err) {
+				throw err;
+			}
+
+			return res.redirect('/your-profile/edit');
+		});
 	});
 
 };
@@ -164,34 +164,34 @@ exports.updatePassword = function (req, res) {
 			throw err;
 		}
 
-		if (hash === user.password.hash) {
-			if (passwordNew === passwordRepeat) {
-				helpers.password.hash(passwordNew, function (err, salt, hash) {
-					if (err) {
-						throw err;
-					}
-
-					user.password = {
-						salt: salt,
-						hash: hash
-					};
-
-					user.save(function (err) {
-						if (err) {
-							throw err;
-						}
-
-						res.redirect('/your-profile/edit');
-					});
-				});
-			} else {
-				console.log('passwords did not match');
-				res.redirect('/your-profile/edit');
-			}
-		} else {
+		if (hash !== user.password.hash) {
 			console.log('could not verify password');
+			return res.redirect('/your-profile/edit');
+		}
+
+		if (passwordNew !== passwordRepeat) {
+			console.log('passwords did not match');
 			res.redirect('/your-profile/edit');
 		}
+
+		helpers.password.hash(passwordNew, function (err, salt, hash) {
+			if (err) {
+				throw err;
+			}
+
+			user.password = {
+				salt: salt,
+				hash: hash
+			};
+
+			user.save(function (err) {
+				if (err) {
+					throw err;
+				}
+
+				res.redirect('/your-profile/edit');
+			});
+		});
 	});
 
 };
@@ -214,20 +214,20 @@ exports.destroy = function (req, res) {
 			throw err;
 		}
 
-		if (hash === user.password.hash) {
-			user.remove(function (err) {
-				if (err) {
-					throw err;
-				}
-
-				helpers.authentication.clearAuthenticatedUser(req, res, function () {
-					res.redirect('/signup');
-				});
-			});
-		} else {
+		if (hash !== user.password.hash) {
 			console.log('could not verify password');
 			res.redirect('/your-profile/edit');
 		}
+
+		user.remove(function (err) {
+			if (err) {
+				throw err;
+			}
+
+			helpers.authentication.clearAuthenticatedUser(req, res, function () {
+				res.redirect('/signup');
+			});
+		});
 	});
 
 };

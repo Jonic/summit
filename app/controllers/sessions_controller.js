@@ -5,16 +5,14 @@ var helpers = require('../helpers/_index');
 // GET: /signin
 exports.new = function (req, res) {
 
-	var redirectDestination = req.session.redirectDestination;
-
-	delete req.session.redirectDestination;
-
 	res.render('sessions/new', {
 		page: {
 			title: 'Sign In'
 		},
-		redirectDestination: redirectDestination
+		redirectDestination: req.session.redirectDestination
 	});
+
+	delete req.session.redirectDestination;
 
 };
 
@@ -38,19 +36,17 @@ exports.create = function (req, res) {
 			throw err;
 		}
 
-		if (hash === user.password.hash) {
-			return helpers.authentication.setAuthenticatedUser({
-				loggedin: true,
-				firstName: user.firstName,
-				username: user.username
-			}, req, res, function (req, res) {
-				var redirectDestination = req.body.redirectDestination || '/dashboard';
-				console.log(redirectDestination);
-				res.redirect(redirectDestination);
-			});
+		if (hash !== user.password.hash) {
+			res.redirect('/signin');
 		}
 
-		res.redirect('/signin');
+		helpers.authentication.setAuthenticatedUser({
+			loggedin: true,
+			firstName: user.firstName,
+			username: user.username
+		}, req, res, function (req, res) {
+			res.redirect(req.body.redirectDestination || '/dashboard');
+		});
 	});
 
 };
