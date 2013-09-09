@@ -1,6 +1,7 @@
 var express = require('express');
 
 var app = express();
+var flash = require('connect-flash');
 var hbs = require('hbs');
 var http = require('http');
 var mongoose = require('mongoose');
@@ -35,6 +36,7 @@ app.use(express.session(mongostoreSettings));
 app.use(express.static(path.join(__dirname, '/public')));
 
 app.use(express.csrf());
+app.use(flash());
 
 app.use(app.router);
 

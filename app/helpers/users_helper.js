@@ -13,9 +13,11 @@ exports.get = function (req, res, next) {
 			return next(err);
 		}
 
-		req.user = user;
-		req.diary = user.diary[0];
-		req.entries = user.diary[0].entries;
+		if (user) {
+			req.user = user;
+			req.diary = user.diary[0];
+			req.entries = user.diary[0].entries;
+		}
 
 		next();
 	});

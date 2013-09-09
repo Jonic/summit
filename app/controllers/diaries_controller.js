@@ -8,6 +8,17 @@ exports.show = function (req, res) {
 	var entries = req.entries;
 
 	if (!user) {
+		req.flash('alert', {
+			className: 'warning',
+			title: 'Diary Not Found!',
+			description: 'there were errors there',
+			messages: [
+				'First message',
+				'message two',
+				'Another message'
+			]
+		});
+
 		return res.redirect('diary/not-found');
 	}
 
@@ -30,7 +41,10 @@ exports.show = function (req, res) {
 // GET: /diary/not-found
 exports.notFound = function (req, res) {
 
+	var alert = req.flash('alert')[0];
+
 	res.render('diaries/notFound', {
+		alert: alert,
 		page: {
 			title: 'Diary Not Found'
 		}
