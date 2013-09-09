@@ -31,9 +31,19 @@
 		<div class="container">
 			<h1>{{page.title}}</h1>
 
-			{{#if saved}}
-				<div class="alert alert-success">
-					<p>SAVED YOUR BLOODY ENTRY</p>
+			{{#if alert}}
+				<div class="panel panel-{{alert.className}}">
+  					<div class="panel-heading">
+    					<h3 class="panel-title">{{alert.title}}</h3>
+  					</div>
+  					<div class="panel-body">
+  						<p>{{alert.description}}</p>
+  						<ul>
+							{{#each alert.messages}}
+								<li>{{this}}</li>
+							{{/each}}
+						</ul>
+					</div>
 				</div>
 			{{/if}}
 

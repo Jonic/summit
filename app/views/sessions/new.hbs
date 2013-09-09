@@ -2,6 +2,9 @@
 <form action="/signin" method="post">
 	<fieldset>
 		<input type="hidden" name="_csrf" value="{{token}}" />
+		{{#if redirectDestination}}
+			<input type="hidden" name="redirectDestination" value="{{redirectDestination}}" />
+		{{/if}}
 
 		<div class="form-group">
 			<label for="username">Username</label>

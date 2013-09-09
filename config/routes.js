@@ -16,6 +16,8 @@ module.exports = function (app) {
 		helpers.authentication.ensureAuthenticated,
 	], controllers.application.dashboard);
 
+	app.get('/not-authorised', controllers.application.notAuthorised);
+
 	//	Session Management
 	app.get('/signup', [
 		helpers.authentication.redirectToDashboardIfAuthenticated
@@ -89,7 +91,7 @@ module.exports = function (app) {
 	app.post('/diary/new-entry', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.setAuthenticatedUsernameForLookup,
-		helpers.users.get,
+		helpers.users.get
 	], controllers.entries.create);
 
 	app.get('/diary/:username/entry/:entryId', [
@@ -99,29 +101,29 @@ module.exports = function (app) {
 
 	app.get('/diary/:username/entry/:entryId/edit', [
 		helpers.authentication.ensureAuthenticated,
-		helpers.users.setAuthenticatedUsernameForLookup,
 		helpers.users.get,
+		helpers.users.ensureAuthorised,
 		helpers.entries.getEntryById,
 	], controllers.entries.edit);
 
 	app.post('/diary/:username/entry/:entryId/edit', [
 		helpers.authentication.ensureAuthenticated,
-		helpers.users.setAuthenticatedUsernameForLookup,
 		helpers.users.get,
+		helpers.users.ensureAuthorised,
 		helpers.entries.getEntryById,
 	], controllers.entries.update);
 
 	app.get('/diary/:username/entry/:entryId/delete', [
 		helpers.authentication.ensureAuthenticated,
-		helpers.users.setAuthenticatedUsernameForLookup,
 		helpers.users.get,
+		helpers.users.ensureAuthorised,
 		helpers.entries.getEntryById,
 	], controllers.entries.delete);
 
 	app.post('/diary/:username/entry/:entryId/delete', [
 		helpers.authentication.ensureAuthenticated,
-		helpers.users.setAuthenticatedUsernameForLookup,
 		helpers.users.get,
+		helpers.users.ensureAuthorised,
 		helpers.entries.getEntryById,
 	], controllers.entries.destroy);
 
