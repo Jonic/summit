@@ -1,3 +1,5 @@
+'use strict';
+
 exports.ensureAuthenticated = function (req, res, next) {
 
 	if (!req.session.auth) {

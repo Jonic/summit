@@ -1,6 +1,7 @@
+'use strict';
+
 exports.getEntryById = function (req, res, next) {
 
-	var user = req.user;
 	var entries = req.entries;
 	var entryId = req.params.entryId;
 

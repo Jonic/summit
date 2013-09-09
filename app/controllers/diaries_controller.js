@@ -1,4 +1,4 @@
-var User = require('../models/user');
+'use strict';
 
 // GET: /diary/:username
 exports.show = function (req, res) {
@@ -22,7 +22,7 @@ exports.show = function (req, res) {
 		return res.redirect('diary/not-found');
 	}
 
-	diary.isOwner = user.username === req.session.auth.username;
+	diary.isOwner = req.session.auth ? (user.username === req.session.auth.username) : false;
 
 	res.render('diaries/show', {
 		author: {

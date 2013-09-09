@@ -1,3 +1,5 @@
+'use strict';
+
 var crypto = require('crypto');
 
 exports.hash = function (password, salt, next) {

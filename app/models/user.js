@@ -1,3 +1,5 @@
+'use strict';
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -22,6 +24,10 @@ var userSchema = new Schema({
 			required: true,
 			type: String
 		}
+	},
+	privateAccount: {
+		type: Boolean,
+		default: true
 	},
 	username: {
 		index: {

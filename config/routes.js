@@ -12,11 +12,11 @@ module.exports = function (app) {
 
 	//	Generic Routes
 	app.get('/', [
-		helpers.authentication.redirectToDashboardIfAuthenticated,
+		helpers.authentication.redirectToDashboardIfAuthenticated
 	], controllers.application.home);
 
 	app.get('/dashboard', [
-		helpers.authentication.ensureAuthenticated,
+		helpers.authentication.ensureAuthenticated
 	], controllers.application.dashboard);
 
 	app.get('/not-authorised', controllers.application.notAuthorised);
@@ -30,7 +30,7 @@ module.exports = function (app) {
 
 	app.post('/signup', [
 		helpers.authentication.redirectToDashboardIfAuthenticated,
-		helpers.users.get,
+		helpers.users.get
 	], controllers.users.create);
 
 	app.get('/signin', [
@@ -39,7 +39,7 @@ module.exports = function (app) {
 
 	app.post('/signin', [
 		helpers.authentication.redirectToDashboardIfAuthenticated,
-		helpers.users.get,
+		helpers.users.get
 	], controllers.sessions.create);
 
 	app.get('/signout', controllers.sessions.destroy);
@@ -48,35 +48,35 @@ module.exports = function (app) {
 
 	//	User Accounts
 	app.get('/your-profile', [
-		helpers.authentication.ensureAuthenticated,
+		helpers.authentication.ensureAuthenticated
 	], controllers.users.show);
 
 	app.get('/your-profile/edit', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.setAuthenticatedUsernameForLookup,
-		helpers.users.get,
+		helpers.users.get
 	], controllers.users.edit);
 
 	app.put('/your-profile/edit', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.setAuthenticatedUsernameForLookup,
-		helpers.users.get,
+		helpers.users.get
 	], controllers.users.update);
 
 	app.put('/your-profile/change-email', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.setAuthenticatedUsernameForLookup,
-		helpers.users.get,
+		helpers.users.get
 	], controllers.users.updateEmail);
 
 	app.get('/your-profile/verify-email/:key', [
-		helpers.users.get,
+		helpers.users.get
 	], controllers.users.verifyEmail);
 
 	app.put('/your-profile/change-password', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.setAuthenticatedUsernameForLookup,
-		helpers.users.get,
+		helpers.users.get
 	], controllers.users.updatePassword);
 
 	app.get('/your-profile/delete', [
@@ -104,38 +104,40 @@ module.exports = function (app) {
 
 	app.get('/diary/:username/entry/:entryId', [
 		helpers.users.get,
-		helpers.entries.getEntryById,
+		helpers.users.ensurePublicAccount,
+		helpers.entries.getEntryById
 	], controllers.entries.show);
 
 	app.get('/diary/:username/entry/:entryId/edit', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.get,
 		helpers.users.ensureAuthorised,
-		helpers.entries.getEntryById,
+		helpers.entries.getEntryById
 	], controllers.entries.edit);
 
 	app.put('/diary/:username/entry/:entryId/edit', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.get,
 		helpers.users.ensureAuthorised,
-		helpers.entries.getEntryById,
+		helpers.entries.getEntryById
 	], controllers.entries.update);
 
 	app.get('/diary/:username/entry/:entryId/delete', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.get,
 		helpers.users.ensureAuthorised,
-		helpers.entries.getEntryById,
+		helpers.entries.getEntryById
 	], controllers.entries.delete);
 
 	app.delete('/diary/:username/entry/:entryId/delete', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.get,
 		helpers.users.ensureAuthorised,
-		helpers.entries.getEntryById,
+		helpers.entries.getEntryById
 	], controllers.entries.destroy);
 
 	app.get('/diary/entry-not-found', controllers.entries.notFound);
+	app.get('/diary/private-account', controllers.entries.privateAccount);
 
 
 
@@ -144,6 +146,7 @@ module.exports = function (app) {
 
 	app.get('/diary/:username', [
 		helpers.users.get,
+		helpers.users.ensurePublicAccount
 	], controllers.diaries.show);
 
 };
