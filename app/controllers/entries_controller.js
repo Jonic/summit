@@ -82,7 +82,7 @@ exports.edit = function (req, res) {
 
 };
 
-// POST: /diary/:username/entry/:entryId/edit
+// PATCH/PUT: /diary/:username/entry/:entryId/edit
 exports.update = function (req, res) {
 
 	var user = req.user;
@@ -116,7 +116,7 @@ exports.delete = function (req, res) {
 
 };
 
-// POST: /diary/:username/entry/:entryId/delete
+// DELETE: /diary/:username/entry/:entryId/delete
 exports.destroy = function (req, res) {
 
 	var user = req.user;

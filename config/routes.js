@@ -3,9 +3,12 @@ var helpers = require('../app/helpers/_index');
 
 module.exports = function (app) {
 
+	//	Catch-all Routes
 	app.all('*', [
 		helpers.locals.set
 	]);
+
+
 
 	//	Generic Routes
 	app.get('/', [
@@ -17,6 +20,8 @@ module.exports = function (app) {
 	], controllers.application.dashboard);
 
 	app.get('/not-authorised', controllers.application.notAuthorised);
+
+
 
 	//	Session Management
 	app.get('/signup', [
@@ -39,8 +44,9 @@ module.exports = function (app) {
 
 	app.get('/signout', controllers.sessions.destroy);
 
-	//	User Accounts
 
+
+	//	User Accounts
 	app.get('/your-profile', [
 		helpers.authentication.ensureAuthenticated,
 	], controllers.users.show);
@@ -51,13 +57,13 @@ module.exports = function (app) {
 		helpers.users.get,
 	], controllers.users.edit);
 
-	app.post('/your-profile/edit', [
+	app.put('/your-profile/edit', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.setAuthenticatedUsernameForLookup,
 		helpers.users.get,
 	], controllers.users.update);
 
-	app.post('/your-profile/change-email', [
+	app.put('/your-profile/change-email', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.setAuthenticatedUsernameForLookup,
 		helpers.users.get,
@@ -67,7 +73,7 @@ module.exports = function (app) {
 		helpers.users.get,
 	], controllers.users.verifyEmail);
 
-	app.post('/your-profile/change-password', [
+	app.put('/your-profile/change-password', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.setAuthenticatedUsernameForLookup,
 		helpers.users.get,
@@ -77,13 +83,15 @@ module.exports = function (app) {
 		helpers.authentication.ensureAuthenticated
 	], controllers.users.delete);
 
-	app.post('/your-profile/delete', [
+	app.delete('/your-profile/delete', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.setAuthenticatedUsernameForLookup,
 		helpers.users.get
 	], controllers.users.destroy);
 
-	//	Diaries and Entries
+
+
+	//	Entries
 	app.get('/diary/new-entry', [
 		helpers.authentication.ensureAuthenticated
 	], controllers.entries.new);
@@ -106,7 +114,7 @@ module.exports = function (app) {
 		helpers.entries.getEntryById,
 	], controllers.entries.edit);
 
-	app.post('/diary/:username/entry/:entryId/edit', [
+	app.put('/diary/:username/entry/:entryId/edit', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.get,
 		helpers.users.ensureAuthorised,
@@ -120,15 +128,19 @@ module.exports = function (app) {
 		helpers.entries.getEntryById,
 	], controllers.entries.delete);
 
-	app.post('/diary/:username/entry/:entryId/delete', [
+	app.delete('/diary/:username/entry/:entryId/delete', [
 		helpers.authentication.ensureAuthenticated,
 		helpers.users.get,
 		helpers.users.ensureAuthorised,
 		helpers.entries.getEntryById,
 	], controllers.entries.destroy);
 
-	app.get('/diary/not-found', controllers.diaries.notFound);
 	app.get('/diary/entry-not-found', controllers.entries.notFound);
+
+
+
+	//	Diaries
+	app.get('/diary/not-found', controllers.diaries.notFound);
 
 	app.get('/diary/:username', [
 		helpers.users.get,

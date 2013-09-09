@@ -1,8 +1,11 @@
 <p>This will delete your account FUH-EVER. Are you sure you want to do this?</p>
+
 <a class="btn btn-primary" href="/your-profile/edit">Nah</a>
+
 <form action="/your-profile/delete" method="post">
 	<fieldset>
 		<input type="hidden" name="_csrf" value="{{token}}" />
+		<input type="hidden" name="_method" value="delete" />
 
 		<div class="form-group">
 			<label for="password">Password</label>

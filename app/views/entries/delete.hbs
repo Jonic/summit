@@ -1,8 +1,12 @@
 <p>Delete this Entry?</p>
+
 <a class="btn btn-primary" href="/diary/{{user.username}}/entry/{{entry._id}}">Nah</a>
+
 <form action="/diary/{{user.username}}/entry/{{entry._id}}/delete" method="post">
 	<fieldset>
 		<input type="hidden" name="_csrf" value="{{token}}" />
+		<input type="hidden" name="_method" value="delete" />
+
 		<button class="btn btn-danger" type="submit">Yes go on please</button>
 	</fieldset>
 </form>
