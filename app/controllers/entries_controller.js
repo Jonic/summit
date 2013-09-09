@@ -9,15 +9,15 @@ exports.show = function (req, res) {
 		return res.redirect('diary/not-found');
 	}
 
-	var diary = req.diary;
-
-	diary.isOwner = user.username === req.session.auth.username;
-
 	var entry = req.entry;
 
 	if (!entry) {
 		return res.redirect('diary/entry-not-found');
 	}
+
+	var diary = req.diary;
+
+	diary.isOwner = user.username === req.session.auth.username;
 
 	res.render('entries/show', {
 		author: {
@@ -48,9 +48,8 @@ exports.new = function (req, res) {
 exports.create = function (req, res) {
 
 	var content = req.body.content;
-
-	var user = req.user;
 	var entries = req.entries;
+	var user = req.user;
 
 	entries.push({
 		content: content

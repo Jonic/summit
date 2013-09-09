@@ -11,7 +11,8 @@
     "express": "~3.3.5",
     "hbs": "~2.3.1",
     "moment": "~2.1.0",
-    "mongoose": "~3.6.18"
+    "mongoose": "~3.6.18",
+    "validator": "~1.5.1"
   },
   "domains": [
     "summit.100yen.co.uk"
@@ -25,6 +26,6 @@
   "scripts": {
     "start": "node app.js"
   },
-  "version": "0.0.1-19",
-  "subdomain": "summit"
+  "subdomain": "summit",
+  "version": "0.0.1-19"
 }
