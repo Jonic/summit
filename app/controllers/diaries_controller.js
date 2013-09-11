@@ -22,8 +22,6 @@ exports.show = function (req, res) {
 		return res.redirect('diary/not-found');
 	}
 
-	diary.isOwner = req.session.auth ? (user.username === req.session.auth.username) : false;
-
 	res.render('diaries/show', {
 		author: {
 			firstName: user.firstName,
