@@ -38,7 +38,7 @@ exports.setAuthenticatedUsernameForLookup = function (req, res, next) {
 exports.ensureAuthorised = function (req, res, next) {
 
 	if (req.username !== req.session.auth.username) {
-		return res.redirect('/not-authorised');
+		return res.redirect(401, '/not-authorised');
 	}
 
 	next();
@@ -48,7 +48,7 @@ exports.ensureAuthorised = function (req, res, next) {
 exports.ensurePublicAccount = function (req, res, next) {
 
 	if (req.user.privateAccount) {
-		return res.redirect('/diary/private-account');
+		return res.redirect(403, '/diary/private-account');
 	}
 
 	next();
