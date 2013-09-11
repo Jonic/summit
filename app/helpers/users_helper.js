@@ -20,6 +20,8 @@ exports.get = function (req, res, next) {
 			req.user = user;
 			req.diary = user.diary[0];
 			req.entries = user.diary[0].entries;
+
+			req.diary.isOwner = req.session.auth ? (user.username === req.session.auth.username) : false;
 		}
 
 		next();

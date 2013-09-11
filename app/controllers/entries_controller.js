@@ -17,8 +17,6 @@ exports.show = function (req, res) {
 
 	var diary = req.diary;
 
-	diary.isOwner = user.username === req.session.auth.username;
-
 	res.render('entries/show', {
 		author: {
 			firstName: user.firstName,
