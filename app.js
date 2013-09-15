@@ -3,12 +3,13 @@ var express = require('express');
 var app     = express();
 
 //	Module dependencies
-var flash      = require('connect-flash');
-var hbs        = require('hbs');
-var http       = require('http');
-var mongoose   = require('mongoose');
-var mongostore = require('connect-mongo')(express);
-var path       = require('path');
+var flash            = require('connect-flash');
+var expressValidator = require('express-validator');
+var hbs              = require('hbs');
+var http             = require('http');
+var mongoose         = require('mongoose');
+var mongostore       = require('connect-mongo')(express);
+var path             = require('path');
 
 //	Create database connection
 require('./config/db.js')();
@@ -19,6 +20,9 @@ app.set('views', __dirname + '/app/views');
 
 //	Use bodyParser to accept file uploads
 app.use(express.bodyParser());
+
+//	Setup Validation Middleware
+app.use(expressValidator());
 
 //	Configure cookie parser
 app.use(express.cookieParser('you should know me better than that'));
