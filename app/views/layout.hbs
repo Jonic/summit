@@ -38,11 +38,13 @@
   					</div>
   					<div class="panel-body">
   						<p>{{alert.description}}</p>
-  						<ul>
-							{{#each alert.messages}}
-								<li>{{this}}</li>
-							{{/each}}
-						</ul>
+  						{{#if alert.errors}}
+	  						<ul>
+								{{#each alert.errors}}
+									<li>{{this.msg}}</li>
+								{{/each}}
+							</ul>
+						{{/if}}
 					</div>
 				</div>
 			{{/if}}

@@ -19,10 +19,32 @@ exports.new = function (req, res) {
 // POST: /signin
 exports.create = function (req, res) {
 
+	var errors = req.validationErrors();
+
+	if (errors) {
+		return res.render('sessions/new', {
+			alert: {
+				className: 'warning',
+				title: 'Can not do that!',
+				description: 'there were errors there',
+				errors: errors
+			},
+			page: {
+				title: 'You are an idiot'
+			}
+		});
+	}
+
 	var user = req.user;
 
 	if (!user) {
 		return res.render('sessions/new', {
+			alert: {
+				className: 'warning',
+				title: 'User Not Found!',
+				description: 'there were errors there',
+				errors: errors
+			},
 			page: {
 				title: 'User Does Not Exist'
 			}
@@ -36,8 +58,22 @@ exports.create = function (req, res) {
 			throw err;
 		}
 
-		if (hash !== user.password.hash) {
-			res.redirect('/signin');
+		req.assert(hash, 'Invalid password fool').equals(user.password.hash);
+
+		errors = req.validationErrors();
+
+		if (!errors) {
+			return res.render('sessions/new', {
+				alert: {
+					className: 'warning',
+					title: 'User Not Found!',
+					description: 'there were errors there',
+					errors: errors
+				},
+				page: {
+					title: 'Crap Password'
+				}
+			});
 		}
 
 		helpers.authentication.setAuthenticatedUser({

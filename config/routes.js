@@ -30,6 +30,7 @@ module.exports = function (app) {
 
 	app.post('/signup', [
 		helpers.authentication.redirectToDashboardIfAuthenticated,
+		helpers.validation.users.create,
 		helpers.users.get
 	], controllers.users.create);
 
@@ -39,6 +40,7 @@ module.exports = function (app) {
 
 	app.post('/signin', [
 		helpers.authentication.redirectToDashboardIfAuthenticated,
+		helpers.validation.sessions.create,
 		helpers.users.get
 	], controllers.sessions.create);
 

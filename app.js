@@ -21,7 +21,7 @@ app.set('views', __dirname + '/app/views');
 //	Use bodyParser to accept file uploads
 app.use(express.bodyParser());
 
-//	Setup Validation Middleware
+//	Setup validation middleware
 app.use(expressValidator());
 
 //	Configure cookie parser
