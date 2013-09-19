@@ -30,8 +30,8 @@ module.exports = function (app) {
 
 	app.post('/signup', [
 		helpers.authentication.redirectToDashboardIfAuthenticated,
-		helpers.validation.users.create,
-		helpers.users.get
+		helpers.users.get,
+		helpers.validation.users.create
 	], controllers.users.create);
 
 	app.get('/signin', [
@@ -40,8 +40,8 @@ module.exports = function (app) {
 
 	app.post('/signin', [
 		helpers.authentication.redirectToDashboardIfAuthenticated,
-		helpers.validation.sessions.create,
-		helpers.users.get
+		helpers.users.get,
+		helpers.validation.sessions.create
 	], controllers.sessions.create);
 
 	app.get('/signout', controllers.sessions.destroy);
