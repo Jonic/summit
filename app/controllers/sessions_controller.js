@@ -54,10 +54,6 @@ exports.create = function (req, res) {
 	var password = req.body.password;
 
 	helpers.password.hash(password, user.password.salt, function (err, hash) {
-		if (err) {
-			throw err;
-		}
-
 		req.assert(hash, 'Invalid password fool').equals(user.password.hash);
 
 		errors = req.validationErrors();

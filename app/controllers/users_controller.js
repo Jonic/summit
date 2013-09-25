@@ -100,10 +100,6 @@ exports.update = function (req, res) {
 	diary.title = req.body.diaryTitle;
 
 	user.save(function (err) {
-		if (err) {
-			throw err;
-		}
-
 		res.redirect('/your-profile/edit');
 	});
 
@@ -134,28 +130,10 @@ exports.updateEmail = function (req, res) {
 		return res.redirect('/your-profile/edit');
 	}
 
-	User.findOne({
-		email: {
-			$regex: new RegExp("^" + req.body.email, "i")
-		}
-	}, function (err, userExists) {
-		if (err) {
-			throw err;
-		}
+	user.email = req.body.email;
 
-		if (userExists) {
-			return res.redirect('/your-profile/edit');
-		}
-
-		user.email = req.body.email;
-
-		user.save(function (err) {
-			if (err) {
-				throw err;
-			}
-
-			return res.redirect('/your-profile/edit');
-		});
+	user.save(function (err) {
+		return res.redirect('/your-profile/edit');
 	});
 
 };
@@ -192,10 +170,6 @@ exports.updatePassword = function (req, res) {
 	var user = req.user;
 
 	helpers.password.hash(password, user.password.salt, function (err, hash) {
-		if (err) {
-			throw err;
-		}
-
 		if (hash !== user.password.hash) {
 			console.log('could not verify password');
 			return res.redirect('/your-profile/edit');
@@ -207,10 +181,6 @@ exports.updatePassword = function (req, res) {
 		}
 
 		helpers.password.hash(passwordNew, function (err, salt, hash) {
-			if (err) {
-				throw err;
-			}
-
 			user.password = {
 				salt: salt,
 				hash: hash
@@ -258,19 +228,11 @@ exports.destroy = function (req, res) {
 	var password = req.body.password;
 
 	helpers.password.hash(password, user.password.salt, function (err, hash) {
-		if (err) {
-			throw err;
-		}
-
 		if (hash !== user.password.hash) {
 			res.redirect('/your-profile/edit');
 		}
 
 		user.remove(function (err) {
-			if (err) {
-				throw err;
-			}
-
 			helpers.authentication.clearAuthenticatedUser(req, res, function () {
 				res.redirect('/signup');
 			});

@@ -1,10 +1,12 @@
 'use strict';
 
-exports.create = function (req, res, next) {
+var User = require('../../models/user');
 
-	req.assert(typeof req.user, 'This user already exists!').equals('object');
+exports.create = function (req, res) {
 
 	var errors = req.validationErrors();
+
+	req.assert(typeof req.user, 'This user already exists!').equals('object');
 
 	if (!errors) {
 		User.findOne({
@@ -15,10 +17,27 @@ exports.create = function (req, res, next) {
 			req.assert(typeof req.user, 'This email address is already in use!').equals('object');
 
 			if (!errors) {
-				req.assert('username', 'Please enter your username').notEmpty();
-				req.assert('name',     'Please enter your name').notEmpty();
-				req.assert('email',    'Please enter a valid email address').isEmail();
-				req.assert('password', 'Your password must be at least five characters long, yeah').len(5);
+				var form = {
+					name: {
+						error: req.assert('username', 'Please enter your username').notEmpty(),
+						value: req.body.name
+					},
+					username: {
+						error: req.assert('name', 'Please enter your name').notEmpty(),
+						value: req.body.username
+					},
+					email: {
+						error: req.assert('email', 'Please enter a valid email address').isEmail(),
+						value: req.body.email
+					},
+					password: {
+						error: req.assert('password', 'Your password must be at least five characters long, yeah').len(5),
+						value: req.body.password
+					},
+					privateAccount: {
+						checked: req.body.privateAccount ? 'checked="checked"' : ''
+					}
+				};
 
 				if (errors) {
 					return res.render('users/new', {
@@ -26,7 +45,8 @@ exports.create = function (req, res, next) {
 							className: 'warning',
 							title: 'Can not do that!',
 							description: 'there were errors there',
-							errors: errors
+							errors: errors,
+							form: form
 						},
 						page: {
 							title: 'You are an idiot'
@@ -36,8 +56,6 @@ exports.create = function (req, res, next) {
 			}
 		});
 	}
-
-	next();
 
 };
 
