@@ -5,14 +5,14 @@
     "url": "http://100yen.co.uk/"
   },
   "dependencies": {
-    "bower": "~1.2.4",
+    "bower": "~1.2.7",
     "connect-flash": "~0.1.1",
     "connect-mongo": "~0.3.3",
-    "express": "~3.3.5",
+    "express": "~3.4.0",
     "express-validator": "~0.8.0",
-    "hbs": "~2.3.1",
-    "moment": "~2.1.0",
-    "mongoose": "~3.6.18"
+    "hbs": "~2.4.0",
+    "moment": "~2.3.0",
+    "mongoose": "~3.6.20"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

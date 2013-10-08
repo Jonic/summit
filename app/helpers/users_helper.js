@@ -15,7 +15,7 @@ exports.get = function (req, res, next) {
 			req.username = user.username;
 			req.user = user;
 			req.diary = user.diary[0];
-			req.entries = user.diary[0].entries;
+			req.entries = user.diary[0].entries.reverse();
 
 			req.diary.isOwner = req.session.auth ? (user.username === req.session.auth.username) : false;
 		}
