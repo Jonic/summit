@@ -6,26 +6,26 @@
 
 				<div class="form-group">
 					<label for="name">Your Name</label>
-					<input class="form-control" id="name" name="name" type="text" value="Jonic Linley" />
+					<input class="form-control {{form.name.error}}" id="name" name="name" type="text" value="{{form.name.value}}" />
 				</div>
 
 				<div class="form-group">
 					<label for="username">Username</label>
-					<input class="form-control" id="username" name="username" type="text" value="jonic" />
+					<input class="form-control {{form.username.error}}" id="username" name="username" type="text" value="{{form.username.value}}" />
 				</div>
 
 				<div class="form-group">
 					<label for="email">Email Address</label>
-					<input class="form-control" id="email" name="email" type="email" value="jonic@100yen.co.uk" />
+					<input class="form-control {{form.email.error}}" id="email" name="email" type="email" value="{{form.email.value}}" />
 				</div>
 
 				<div class="form-group">
 					<label for="password">Password</label>
-					<input class="form-control" id="password" name="password" type="password" value="123123" />
+					<input class="form-control {{form.password.error}}" id="password" name="password" type="password" />
 				</div>
 
 				<div class="checkbox">
-					<label><input type="checkbox" name="privateAccount" value="true" /> Private account</label>
+					<label><input {{form.privateAccount.checked}} type="checkbox" name="privateAccount" value="true" /> Private account</label>
 				</div>
 
 				<button class="btn btn-primary" type="submit">Create Account</button>

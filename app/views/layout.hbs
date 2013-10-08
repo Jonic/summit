@@ -7,8 +7,10 @@
 
 		<title>{{title}}</title>
 
+		<script src="/vendor/html5shiv/dist/html5shiv.js" type="text/javascript"></script>
+
 		<link rel="stylesheet" type="text/css" href="/vendor/bootstrap/dist/css/bootstrap.min.css" />
-		<link rel="stylesheet" type="text/css" href="/styles/master.css" />
+		<link rel="stylesheet" type="text/css" href="/styles/master.min.css" />
 	</head>
 
 	<body class="body">
@@ -38,16 +40,21 @@
   					</div>
   					<div class="panel-body">
   						<p>{{alert.description}}</p>
-  						<ul>
-							{{#each alert.messages}}
-								<li>{{this}}</li>
-							{{/each}}
-						</ul>
+  						{{#if alert.errors}}
+	  						<ul>
+								{{#each alert.errors}}
+									<li>{{this.msg}}</li>
+								{{/each}}
+							</ul>
+						{{/if}}
 					</div>
 				</div>
 			{{/if}}
 
 {{{body}}}
 		</div>
+
+		<script src="/vendor/jquery/jquery.min.js" type="text/javascript"></script>
+		<script src="/scripts/master.min.js" type="text/javascript"></script>
 	</body>
 </html>

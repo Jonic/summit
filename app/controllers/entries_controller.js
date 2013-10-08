@@ -54,10 +54,6 @@ exports.create = function (req, res) {
 	});
 
 	user.save(function (err) {
-		if (err) {
-			throw err;
-		}
-
 		res.redirect('diary/' + req.session.auth.username);
 	});
 
@@ -88,10 +84,6 @@ exports.update = function (req, res) {
 	entry.content = req.body.content;
 
 	user.save(function (err) {
-		if (err) {
-			throw err;
-		}
-
 		res.redirect('diary/' + req.session.auth.username + '/entry/' + entry._id);
 	});
 
@@ -120,15 +112,7 @@ exports.destroy = function (req, res) {
 	var entry = req.entry;
 
 	entry.remove(function (err) {
-		if (err) {
-			throw err;
-		}
-
 		user.save(function (err) {
-			if (err) {
-				throw err;
-			}
-
 			res.redirect('/diary/' + user.username);
 		});
 	});
