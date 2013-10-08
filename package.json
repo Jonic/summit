@@ -9,10 +9,20 @@
     "connect-flash": "~0.1.1",
     "connect-mongo": "~0.3.3",
     "express": "~3.3.5",
+    "express-validator": "~0.8.0",
     "hbs": "~2.3.1",
     "moment": "~2.1.0",
-    "mongoose": "~3.6.18",
-    "validator": "~1.5.1"
+    "mongoose": "~3.6.18"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-concurrent": "~0.3.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-sass": "~0.5.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-watch": "~0.5.0",
+    "grunt-nodemon": "~0.1.1"
   },
   "domains": [
     "summit.100yen.co.uk"

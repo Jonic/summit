@@ -3,12 +3,16 @@ var express = require('express');
 var app     = express();
 
 //	Module dependencies
-var flash      = require('connect-flash');
-var hbs        = require('hbs');
-var http       = require('http');
-var mongoose   = require('mongoose');
-var mongostore = require('connect-mongo')(express);
-var path       = require('path');
+var flash            = require('connect-flash');
+var expressValidator = require('express-validator');
+var hbs              = require('hbs');
+var http             = require('http');
+var mongoose         = require('mongoose');
+var mongostore       = require('connect-mongo')(express);
+var path             = require('path');
+
+//	Enable Gzip compression
+app.use(express.compress());
 
 //	Create database connection
 require('./config/db.js')();
@@ -19,6 +23,9 @@ app.set('views', __dirname + '/app/views');
 
 //	Use bodyParser to accept file uploads
 app.use(express.bodyParser());
+
+//	Setup validation middleware
+app.use(expressValidator());
 
 //	Configure cookie parser
 app.use(express.cookieParser('you should know me better than that'));
@@ -56,6 +63,12 @@ app.use(express.csrf());
 
 //	Enable connect-flash module
 app.use(flash());
+
+//	Output the current HTTP verb and URL in Terminal
+app.use(function (req, res, next) {
+	console.log(req.method, req.url);
+	next();
+});
 
 //	Enable use of routes
 app.use(app.router);

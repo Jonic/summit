@@ -18,14 +18,6 @@ exports.new = function (req, res) {
 // POST /signup
 exports.create = function (req, res) {
 
-	if (req.user) {
-		return res.render('users/new', {
-			page: {
-				title: 'Email or username in use!'
-			}
-		});
-	}
-
 	var values = req.body;
 
 	var user = new User({
@@ -39,20 +31,12 @@ exports.create = function (req, res) {
 	});
 
 	helpers.password.hash(values.password, function (err, salt, hash) {
-		if (err) {
-			throw err;
-		}
-
 		user.password = {
 			salt: salt,
 			hash: hash
 		};
 
 		user.save(function (err, user) {
-			if (err) {
-				throw err;
-			}
-
 			return helpers.authentication.setAuthenticatedUser({
 				loggedin: true,
 				firstName: user.firstName,
@@ -92,6 +76,22 @@ exports.edit = function (req, res) {
 // PATCH/PUT /your-profile/edit
 exports.update = function (req, res) {
 
+	var errors = req.validationErrors();
+
+	if (errors) {
+		return res.render('your-profile/edit', {
+			alert: {
+				className: 'warning',
+				title: 'Can not do that!',
+				description: 'there were errors there',
+				errors: errors
+			},
+			page: {
+				title: 'You are an idiot'
+			}
+		});
+	}
+
 	var user = req.user;
 	var diary = req.diary;
 
@@ -100,10 +100,6 @@ exports.update = function (req, res) {
 	diary.title = req.body.diaryTitle;
 
 	user.save(function (err) {
-		if (err) {
-			throw err;
-		}
-
 		res.redirect('/your-profile/edit');
 	});
 
@@ -112,34 +108,32 @@ exports.update = function (req, res) {
 // PATCH/PUT /your-profile/change-email
 exports.updateEmail = function (req, res) {
 
+	var errors = req.validationErrors();
+
+	if (errors) {
+		return res.render('your-profile/edit', {
+			alert: {
+				className: 'warning',
+				title: 'Can not do that!',
+				description: 'there were errors there',
+				errors: errors
+			},
+			page: {
+				title: 'You are an idiot'
+			}
+		});
+	}
+
 	var user = req.user;
 
 	if (user.email === req.body.email) {
 		return res.redirect('/your-profile/edit');
 	}
 
-	User.findOne({
-		email: {
-			$regex: new RegExp("^" + req.body.email, "i")
-		}
-	}, function (err, userExists) {
-		if (err) {
-			throw err;
-		}
+	user.email = req.body.email;
 
-		if (userExists) {
-			return res.redirect('/your-profile/edit');
-		}
-
-		user.email = req.body.email;
-
-		user.save(function (err) {
-			if (err) {
-				throw err;
-			}
-
-			return res.redirect('/your-profile/edit');
-		});
+	user.save(function (err) {
+		return res.redirect('/your-profile/edit');
 	});
 
 };
@@ -154,16 +148,28 @@ exports.verifyEmail = function (req, res) {
 // PATCH/PUT /your-profile/change-password
 exports.updatePassword = function (req, res) {
 
+	var errors = req.validationErrors();
+
+	if (errors) {
+		return res.render('your-profile/edit', {
+			alert: {
+				className: 'warning',
+				title: 'Can not do that!',
+				description: 'there were errors there',
+				errors: errors
+			},
+			page: {
+				title: 'You are an idiot'
+			}
+		});
+	}
+
 	var password = req.body.password;
 	var passwordNew = req.body.passwordNew;
 	var passwordRepeat = req.body.passwordRepeat;
 	var user = req.user;
 
 	helpers.password.hash(password, user.password.salt, function (err, hash) {
-		if (err) {
-			throw err;
-		}
-
 		if (hash !== user.password.hash) {
 			console.log('could not verify password');
 			return res.redirect('/your-profile/edit');
@@ -175,10 +181,6 @@ exports.updatePassword = function (req, res) {
 		}
 
 		helpers.password.hash(passwordNew, function (err, salt, hash) {
-			if (err) {
-				throw err;
-			}
-
 			user.password = {
 				salt: salt,
 				hash: hash
@@ -206,24 +208,31 @@ exports.delete = function (req, res) {
 // DELETE /your-profile/delete
 exports.destroy = function (req, res) {
 
+	var errors = req.validationErrors();
+
+	if (errors) {
+		return res.render('your-profile/edit', {
+			alert: {
+				className: 'warning',
+				title: 'Can not do that!',
+				description: 'there were errors there',
+				errors: errors
+			},
+			page: {
+				title: 'You are an idiot'
+			}
+		});
+	}
+
 	var user = req.user;
 	var password = req.body.password;
 
 	helpers.password.hash(password, user.password.salt, function (err, hash) {
-		if (err) {
-			throw err;
-		}
-
 		if (hash !== user.password.hash) {
-			console.log('could not verify password');
 			res.redirect('/your-profile/edit');
 		}
 
 		user.remove(function (err) {
-			if (err) {
-				throw err;
-			}
-
 			helpers.authentication.clearAuthenticatedUser(req, res, function () {
 				res.redirect('/signup');
 			});

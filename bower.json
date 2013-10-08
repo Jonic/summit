@@ -2,7 +2,6 @@
   "name":  "Summit",
   "dependencies": {
     "bootstrap": "3.0.0",
-    "bourbon": "3.1.8",
     "html5shiv": "3.6.2",
     "jquery": "2.0.3"
   },

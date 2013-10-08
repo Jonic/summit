@@ -11,10 +11,6 @@ exports.get = function (req, res, next) {
 			$regex: new RegExp("^" + username, "i")
 		}
 	}, function (err, user) {
-		if (err) {
-			return next(err);
-		}
-
 		if (user) {
 			req.username = user.username;
 			req.user = user;
