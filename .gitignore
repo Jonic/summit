@@ -18,3 +18,4 @@ npm-debug.log
 # Other ignored files and directories
 
 .sass-cache
+node_modules
